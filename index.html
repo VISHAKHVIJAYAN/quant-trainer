@@ -4,54 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quant Aptitude Trainer</title>
-    <!-- Self-contained - no external dependencies -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        /* Modern CSS Variables */
         :root {
-            --primary: #3a86ff;
-            --secondary: #8338ec;
-            --success: #38b000;
-            --error: #ff006e;
-            --warning: #ffbe0b;
-            --dark: #1a1a2e;
-            --darker: #16213e;
-            --card: #0f3460;
-            --light: #e6e6e6;
-            --gray: #8a8a8e;
-            --radius: 12px;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            --transition: all 0.3s ease;
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --card-hover: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
+            --border-radius: 16px;
+            --border-radius-sm: 8px;
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 10px 20px rgba(0, 0, 0, 0.2);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Base Styles */
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(135deg, var(--darker), var(--dark));
-            color: var(--light);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
             min-height: 100vh;
             padding: 20px;
-            line-height: 1.6;
+            background-image: 
+                radial-gradient(at 40% 20%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
+                radial-gradient(at 80% 80%, rgba(139, 92, 246, 0.1) 0px, transparent 50%);
         }
 
         .container {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
+            padding: 20px;
         }
 
-        /* Header */
         header {
             text-align: center;
-            padding: 25px;
             margin-bottom: 30px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
             position: relative;
             overflow: hidden;
         }
@@ -62,287 +67,217 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 5px;
-            background: var(--warning);
+            height: 4px;
+            background: var(--primary-gradient);
         }
 
         h1 {
             font-size: 2.2rem;
             margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        h1::before {
-            content: '🧮';
-            font-size: 2.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .subtitle {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-size: 1rem;
         }
 
-        /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
             margin-bottom: 30px;
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius);
+            background: var(--card-bg);
             padding: 20px;
+            border-radius: var(--border-radius);
             text-align: center;
             transition: var(--transition);
+            box-shadow: var(--shadow-md);
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow-lg);
         }
 
         .stat-value {
-            font-size: 2.2rem;
-            font-weight: 700;
+            font-size: 2rem;
+            font-weight: bold;
             margin-bottom: 5px;
-            color: var(--primary);
         }
 
         .stat-label {
             font-size: 0.9rem;
-            color: var(--gray);
+            color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        /* Main Card */
-        .main-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius);
-            padding: 30px;
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
             margin-bottom: 25px;
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(99, 102, 241, 0.2);
         }
 
         .card-title {
-            font-size: 1.3rem;
-            margin-bottom: 25px;
-            color: var(--primary);
             display: flex;
             align-items: center;
             gap: 10px;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+            font-size: 1.2rem;
         }
 
-        /* Difficulty Selector */
-        .difficulty-selector {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-
-        .diff-btn {
-            flex: 1;
-            min-width: 100px;
-            padding: 12px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--light);
-            border-radius: var(--radius);
-            cursor: pointer;
-            font-weight: 600;
-            transition: var(--transition);
-            text-align: center;
-        }
-
-        .diff-btn:hover {
-            border-color: var(--primary);
-        }
-
-        .diff-btn.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-        }
-
-        /* Controls */
         .controls {
             display: grid;
             grid-template-columns: 1fr auto;
             gap: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 640px) {
             .controls {
                 grid-template-columns: 1fr;
             }
         }
 
-        select, button {
-            padding: 15px;
-            border-radius: var(--radius);
+        select, button, input {
+            padding: 14px 18px;
+            border-radius: var(--border-radius-sm);
             border: 2px solid transparent;
+            background: rgba(30, 41, 59, 0.8);
+            color: var(--text-primary);
             font-size: 1rem;
-            font-weight: 600;
             transition: var(--transition);
         }
 
         select {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--light);
+            background: rgba(30, 41, 59, 0.8);
             cursor: pointer;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%233a86ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 15px center;
             background-size: 20px;
             padding-right: 50px;
+            appearance: none;
         }
 
-        select:focus {
+        select:focus, input:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
 
         button {
             cursor: pointer;
+            font-weight: 600;
+            letter-spacing: 0.5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             white-space: nowrap;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: var(--primary-gradient);
             color: white;
             border: none;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(58, 134, 255, 0.4);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
         }
 
         .btn-success {
-            background: var(--success);
+            background: var(--success-color);
+            color: white;
+            border: none;
+            width: 100%;
+        }
+
+        .btn-success:hover {
+            background: #0da271;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: var(--warning-color);
             color: white;
             border: none;
         }
 
-        .btn-success:hover {
-            background: #2f9a00;
-        }
-
-        /* Question Display */
         .question-display {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: var(--radius);
-            padding: 40px 20px;
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: var(--border-radius);
+            padding: 40px 30px;
             margin: 30px 0;
             text-align: center;
-            min-height: 180px;
+            min-height: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px dashed rgba(255, 255, 255, 0.1);
-            font-size: 1.8rem;
-        }
-
-        /* Math Styling */
-        .math {
-            display: inline-block;
-            margin: 0 5px;
-        }
-
-        sup, sub {
-            font-size: 0.7em;
-            line-height: 1;
-        }
-
-        .sqrt {
-            position: relative;
-            display: inline-block;
-            padding-left: 5px;
-        }
-
-        .sqrt::before {
-            content: '√';
-            position: relative;
-            font-size: 1.2em;
-        }
-
-        .radicand {
-            border-top: 2px solid currentColor;
-            padding: 0 3px;
-            display: inline-block;
-        }
-
-        .frac {
-            display: inline-block;
-            vertical-align: middle;
-            text-align: center;
-        }
-
-        .frac > span {
-            display: block;
-            padding: 0 5px;
-        }
-
-        .frac > .num {
-            border-bottom: 1px solid currentColor;
-        }
-
-        /* Input Area */
-        .input-area {
-            margin: 25px 0;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 18px;
-            font-size: 1.3rem;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            color: var(--light);
-            border-radius: var(--radius);
+            font-size: 2rem;
+            border: 2px dashed rgba(59, 130, 246, 0.2);
             transition: var(--transition);
         }
 
-        input[type="text"]:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: rgba(255, 255, 255, 0.15);
+        .question-display:hover {
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .input-container {
+            position: relative;
+            margin: 25px 0;
+        }
+
+        .input-container input {
+            width: 100%;
+            padding: 18px 20px;
+            font-size: 1.2rem;
+            text-align: center;
+            background: rgba(30, 41, 59, 0.8);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .input-container input:focus {
+            border-color: var(--accent-color);
+            background: rgba(30, 41, 59, 1);
         }
 
         .hint {
-            display: block;
-            text-align: center;
-            margin-top: 10px;
-            color: var(--gray);
             font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            text-align: center;
+            display: block;
             font-style: italic;
         }
 
-        /* Solution Area */
         .solution-area {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: var(--radius);
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
             padding: 25px;
             margin-top: 25px;
             display: none;
-            border-left: 5px solid var(--primary);
-            animation: slideIn 0.4s ease-out;
+            border-left: 5px solid var(--accent-color);
+            animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         @keyframes slideIn {
@@ -357,11 +292,11 @@
         }
 
         .solution-correct {
-            border-left-color: var(--success);
+            border-left-color: var(--success-color);
         }
 
         .solution-incorrect {
-            border-left-color: var(--error);
+            border-left-color: var(--error-color);
         }
 
         .solution-header {
@@ -376,76 +311,142 @@
         .solution-title {
             font-size: 1.3rem;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .steps {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: calc(var(--radius) - 4px);
+        .steps-container {
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: var(--border-radius-sm);
             padding: 20px;
             margin-top: 20px;
         }
 
         .step {
             margin-bottom: 12px;
-            padding: 8px 0;
+            padding-bottom: 12px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
         }
 
         .step:last-child {
             border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
         }
 
-        .answer-display {
-            background: rgba(56, 176, 0, 0.1);
-            border-left: 4px solid var(--success);
+        .difficulty-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .difficulty-btn {
+            padding: 10px 20px;
+            border-radius: 50px;
+            background: rgba(30, 41, 59, 0.8);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .difficulty-btn.active {
+            background: var(--primary-gradient);
+            border-color: var(--accent-color);
+        }
+
+        .difficulty-btn:hover:not(.active) {
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+
+        .timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
             padding: 15px;
-            border-radius: calc(var(--radius) - 4px);
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: var(--border-radius);
             margin: 20px 0;
             display: none;
         }
 
-        .answer-display.incorrect {
-            background: rgba(255, 0, 110, 0.1);
-            border-left-color: var(--error);
+        .progress-bar {
+            height: 8px;
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 4px;
+            margin: 25px 0;
+            overflow: hidden;
         }
 
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: var(--gray);
-            font-size: 0.9rem;
-            margin-top: 30px;
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            width: 0%;
+            transition: width 0.5s ease;
         }
 
-        /* Mobile Optimizations */
+        .hidden {
+            display: none !important;
+        }
+
+        .correct-answer {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--success-color);
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: var(--border-radius-sm);
+            border-left: 4px solid var(--success-color);
+        }
+
+        .mobile-menu {
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+        }
+
         @media (max-width: 768px) {
             body {
                 padding: 10px;
             }
             
+            .container {
+                padding: 10px;
+            }
+            
             h1 {
                 font-size: 1.8rem;
-                flex-direction: column;
-                gap: 5px;
             }
             
             .question-display {
                 padding: 25px 15px;
                 font-size: 1.5rem;
-                min-height: 140px;
+                min-height: 150px;
             }
             
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .stat-card {
+                padding: 15px;
             }
             
-            .main-card {
-                padding: 20px;
+            .stat-value {
+                font-size: 1.5rem;
             }
             
-            .diff-btn {
-                min-width: 80px;
+            .mobile-menu {
+                display: flex;
+            }
+            
+            .desktop-only {
+                display: none;
             }
         }
 
@@ -455,971 +456,1100 @@
             }
             
             .difficulty-selector {
-                flex-direction: column;
+                justify-content: center;
             }
             
-            .controls {
-                grid-template-columns: 1fr;
+            .card {
+                padding: 20px 15px;
             }
         }
 
-        /* Custom Icons */
-        .icon::before {
-            display: inline-block;
-            margin-right: 8px;
-            font-size: 1.2em;
+        /* MathJax styling */
+        .mjx-math {
+            font-size: 1.2em !important;
         }
 
-        .icon-math::before { content: '🧮'; }
-        .icon-star::before { content: '⭐'; }
-        .icon-time::before { content: '⏱️'; }
-        .icon-check::before { content: '✅'; }
-        .icon-cross::before { content: '❌'; }
-        .icon-light::before { content: '💡'; }
-
-        /* Progress Bar */
-        .progress-container {
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            margin: 25px 0;
-            overflow: hidden;
+        .math-container {
+            padding: 15px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: var(--border-radius-sm);
+            margin: 10px 0;
         }
 
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-
-        /* Loading Animation */
+        /* Loading animation */
         .loader {
             display: inline-block;
             width: 40px;
             height: 40px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
+            border: 4px solid rgba(59, 130, 246, 0.2);
             border-radius: 50%;
-            border-top-color: var(--primary);
-            animation: spin 1s linear infinite;
+            border-top-color: var(--accent-color);
+            animation: spin 1s ease-in-out infinite;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
-        /* Button Group */
-        .btn-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
+        .feedback-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: var(--border-radius-sm);
+            color: white;
+            font-weight: 600;
+            z-index: 1000;
+            animation: fadeInOut 2s ease;
         }
 
-        @media (max-width: 768px) {
-            .btn-group {
-                flex-direction: column;
-            }
+        .feedback-toast.correct {
+            background: var(--success-color);
         }
 
-        .btn-group button {
-            flex: 1;
+        .feedback-toast.incorrect {
+            background: var(--error-color);
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(-20px); }
+            20% { opacity: 1; transform: translateY(0); }
+            80% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-20px); }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header>
-            <h1 class="icon-math">Quant Aptitude Trainer</h1>
-            <p class="subtitle">Master quantitative aptitude with intelligent practice</p>
-        </header>
 
-        <!-- Stats -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value" id="score">0</div>
-                <div class="stat-label">Score</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="total">0</div>
-                <div class="stat-label">Questions</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="streak">0</div>
-                <div class="stat-label">Streak</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="accuracy">100%</div>
-                <div class="stat-label">Accuracy</div>
-            </div>
+<div class="container">
+    <header>
+        <h1><i class="fas fa-brain"></i> Quant Aptitude Trainer</h1>
+        <p class="subtitle">Master quantitative aptitude with practice questions</p>
+    </header>
+
+    <div class="mobile-menu">
+        <div>
+            <div class="stat-value" id="mobileScore">0</div>
+            <div class="stat-label">Score</div>
         </div>
-
-        <!-- Main Content -->
-        <div class="main-card">
-            <div class="card-title icon-star">Settings</div>
-            
-            <!-- Difficulty Selector -->
-            <div class="difficulty-selector">
-                <div class="diff-btn active" data-level="easy" onclick="setDifficulty('easy')">
-                    Easy
-                </div>
-                <div class="diff-btn" data-level="medium" onclick="setDifficulty('medium')">
-                    Medium
-                </div>
-                <div class="diff-btn" data-level="hard" onclick="setDifficulty('hard')">
-                    Hard
-                </div>
-            </div>
-
-            <!-- Progress Bar -->
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-
-            <!-- Controls -->
-            <div class="controls">
-                <select id="topicSelect">
-                    <option value="indices">📈 Indices & Exponents</option>
-                    <option value="surds">√ Surds & Radicals</option>
-                    <option value="logs">📊 Logarithms</option>
-                    <option value="linear">📐 Linear Equations</option>
-                    <option value="quadratic">🎯 Quadratic Equations</option>
-                    <option value="simultaneous">⚖️ Simultaneous Equations</option>
-                    <option value="arithmetic">🧮 Arithmetic Progression</option>
-                </select>
-                <button class="btn-primary" onclick="generateQuestion()">
-                    New Question
-                </button>
-            </div>
-        </div>
-
-        <!-- Question Area -->
-        <div id="questionArea" class="main-card" style="display: none;">
-            <div class="card-title">Question</div>
-            <div class="question-display" id="questionDisplay">
-                <div class="loader"></div>
-            </div>
-        </div>
-
-        <!-- Answer Input -->
-        <div id="answerArea" class="main-card" style="display: none;">
-            <div class="card-title">Your Answer</div>
-            <div class="input-area">
-                <input type="text" id="answerInput" placeholder="Enter your answer..." autocomplete="off">
-                <span class="hint" id="answerHint">Press Enter to submit</span>
-            </div>
-            <div class="btn-group">
-                <button class="btn-success" onclick="checkAnswer()">
-                    Check Answer
-                </button>
-                <button class="btn-primary" onclick="showHint()">
-                    <span class="icon-light"></span>Show Hint
-                </button>
-            </div>
-        </div>
-
-        <!-- Solution Area -->
-        <div class="solution-area" id="solutionArea">
-            <div class="solution-header">
-                <div class="solution-title" id="solutionTitle">
-                    Solution
-                </div>
-                <div id="solutionTime" class="icon-time">Time: 0s</div>
-            </div>
-            
-            <div class="answer-display" id="answerDisplay">
-                <strong>Correct Answer:</strong> <span id="correctAnswer"></span>
-            </div>
-            
-            <div class="steps" id="solutionSteps"></div>
-            
-            <div class="btn-group">
-                <button class="btn-primary" onclick="generateQuestion()">
-                    Next Question
-                </button>
-                <button class="btn-success" onclick="practiceSimilar()">
-                    Practice Similar
-                </button>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <footer>
-            <p>⚡ Works offline • 🎯 No external dependencies • 📱 Mobile optimized</p>
-        </footer>
+        <button class="btn-primary" onclick="generateQuestion()">
+            <i class="fas fa-redo"></i> New
+        </button>
     </div>
 
-    <script>
-        // ========== STATE MANAGEMENT ==========
-        const state = {
-            currentTopic: 'indices',
-            difficulty: 'easy',
-            currentQuestion: null,
-            score: 0,
-            total: 0,
-            correct: 0,
-            streak: 0,
-            maxStreak: 0,
-            startTime: null,
-            hintsUsed: 0,
-            questionHistory: []
-        };
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value" id="score">0</div>
+            <div class="stat-label">Score</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="total">0</div>
+            <div class="stat-label">Questions</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="streak">0</div>
+            <div class="stat-label">Streak</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="accuracy">0%</div>
+            <div class="stat-label">Accuracy</div>
+        </div>
+    </div>
 
-        // ========== DOM ELEMENTS ==========
-        const elements = {
-            score: document.getElementById('score'),
-            total: document.getElementById('total'),
-            streak: document.getElementById('streak'),
-            accuracy: document.getElementById('accuracy'),
-            topicSelect: document.getElementById('topicSelect'),
-            questionArea: document.getElementById('questionArea'),
-            questionDisplay: document.getElementById('questionDisplay'),
-            answerArea: document.getElementById('answerArea'),
-            answerInput: document.getElementById('answerInput'),
-            answerHint: document.getElementById('answerHint'),
-            solutionArea: document.getElementById('solutionArea'),
-            solutionTitle: document.getElementById('solutionTitle'),
-            solutionTime: document.getElementById('solutionTime'),
-            solutionSteps: document.getElementById('solutionSteps'),
-            answerDisplay: document.getElementById('answerDisplay'),
-            correctAnswer: document.getElementById('correctAnswer'),
-            progressBar: document.getElementById('progressBar')
-        };
-
-        // ========== MATH UTILITIES ==========
-        const mathUtils = {
-            // Random number in range [min, max]
-            randomInt: (min, max) => Math.floor(Math.random() * (max - min + 1)) + min,
-            
-            // Random array element
-            randomChoice: (arr) => arr[Math.floor(Math.random() * arr.length)],
-            
-            // Greatest Common Divisor
-            gcd: (a, b) => b ? mathUtils.gcd(b, a % b) : Math.abs(a),
-            
-            // Least Common Multiple
-            lcm: (a, b) => Math.abs(a * b) / mathUtils.gcd(a, b),
-            
-            // Perfect square check
-            isPerfectSquare: (n) => {
-                const sqrt = Math.floor(Math.sqrt(n));
-                return sqrt * sqrt === n;
-            },
-            
-            // Simplify fraction [numerator, denominator]
-            simplifyFraction: (num, den) => {
-                const gcd = mathUtils.gcd(num, den);
-                return [num / gcd, den / gcd];
-            },
-            
-            // Generate random coefficient based on difficulty
-            randomCoefficient: () => {
-                const ranges = {
-                    easy: { min: 1, max: 5, includeNegatives: false },
-                    medium: { min: -8, max: 8, includeNegatives: true },
-                    hard: { min: -12, max: 12, includeNegatives: true }
-                };
-                const range = ranges[state.difficulty];
-                let coeff = mathUtils.randomInt(range.min, range.max);
-                if (!range.includeNegatives && coeff < 0) coeff = -coeff;
-                if (coeff === 0) coeff = mathUtils.randomInt(1, 5);
-                return coeff;
-            },
-            
-            // Format number with sign
-            formatWithSign: (num) => {
-                if (num === 0) return '';
-                return num > 0 ? `+ ${num}` : `- ${Math.abs(num)}`;
-            }
-        };
-
-        // ========== QUESTION GENERATORS ==========
-        const generators = {
-            indices: () => {
-                const difficulty = state.difficulty;
-                let html, answer, steps = [];
-                
-                if (difficulty === 'easy') {
-                    const base = mathUtils.randomInt(2, 5);
-                    const exp1 = mathUtils.randomInt(1, 3);
-                    const exp2 = mathUtils.randomInt(1, 3);
-                    const operation = mathUtils.randomChoice(['×', '÷']);
-                    
-                    if (operation === '×') {
-                        html = `${base}<sup>${exp1}</sup> × ${base}<sup>${exp2}</sup>`;
-                        answer = Math.pow(base, exp1 + exp2);
-                        steps = [
-                            `Apply the rule: a<sup>m</sup> × a<sup>n</sup> = a<sup>m+n</sup>`,
-                            `${base}<sup>${exp1}</sup> × ${base}<sup>${exp2}</sup> = ${base}<sup>${exp1 + exp2}</sup>`,
-                            `${base}<sup>${exp1 + exp2}</sup> = ${answer}`
-                        ];
-                    } else {
-                        const exp3 = mathUtils.randomInt(0, exp1);
-                        html = `${base}<sup>${exp1}</sup> ÷ ${base}<sup>${exp3}</sup>`;
-                        answer = Math.pow(base, exp1 - exp3);
-                        steps = [
-                            `Apply the rule: a<sup>m</sup> ÷ a<sup>n</sup> = a<sup>m-n</sup>`,
-                            `${base}<sup>${exp1}</sup> ÷ ${base}<sup>${exp3}</sup> = ${base}<sup>${exp1 - exp3}</sup>`,
-                            `${base}<sup>${exp1 - exp3}</sup> = ${answer}`
-                        ];
-                    }
-                } else if (difficulty === 'medium') {
-                    const base = mathUtils.randomInt(2, 7);
-                    const exp1 = mathUtils.randomInt(1, 4);
-                    const exp2 = mathUtils.randomInt(1, 4);
-                    html = `(${base}<sup>${exp1}</sup>)<sup>${exp2}</sup>`;
-                    answer = Math.pow(base, exp1 * exp2);
-                    steps = [
-                        `Apply the rule: (a<sup>m</sup>)<sup>n</sup> = a<sup>m×n</sup>`,
-                        `(${base}<sup>${exp1}</sup>)<sup>${exp2}</sup> = ${base}<sup>${exp1}×${exp2}</sup>`,
-                        `${base}<sup>${exp1 * exp2}</sup> = ${answer}`
-                    ];
-                } else { // hard
-                    const bases = [mathUtils.randomInt(2, 4), mathUtils.randomInt(2, 4)];
-                    const exps = [mathUtils.randomInt(2, 4), mathUtils.randomInt(2, 4)];
-                    const operation = mathUtils.randomChoice(['×', '÷']);
-                    
-                    if (bases[0] === bases[1]) {
-                        if (operation === '×') {
-                            html = `${bases[0]}<sup>${exps[0]}</sup> × ${bases[0]}<sup>${exps[1]}</sup>`;
-                            answer = Math.pow(bases[0], exps[0] + exps[1]);
-                            steps = [
-                                `Same base: a<sup>m</sup> × a<sup>n</sup> = a<sup>m+n</sup>`,
-                                `${bases[0]}<sup>${exps[0]}</sup> × ${bases[0]}<sup>${exps[1]}</sup> = ${bases[0]}<sup>${exps[0] + exps[1]}</sup>`,
-                                `${bases[0]}<sup>${exps[0] + exps[1]}</sup> = ${answer}`
-                            ];
-                        } else {
-                            const exp3 = mathUtils.randomInt(0, exps[0] + exps[1]);
-                            html = `${bases[0]}<sup>${exps[0]}</sup> ÷ ${bases[0]}<sup>${exp3}</sup>`;
-                            answer = Math.pow(bases[0], exps[0] - exp3);
-                            steps = [
-                                `Same base: a<sup>m</sup> ÷ a<sup>n</sup> = a<sup>m-n</sup>`,
-                                `${bases[0]}<sup>${exps[0]}</sup> ÷ ${bases[0]}<sup>${exp3}</sup> = ${bases[0]}<sup>${exps[0] - exp3}</sup>`,
-                                `${bases[0]}<sup>${exps[0] - exp3}</sup> = ${answer}`
-                            ];
-                        }
-                    } else {
-                        html = `${bases[0]}<sup>${exps[0]}</sup> × ${bases[1]}<sup>${exps[1]}</sup>`;
-                        const val1 = Math.pow(bases[0], exps[0]);
-                        const val2 = Math.pow(bases[1], exps[1]);
-                        answer = val1 * val2;
-                        steps = [
-                            `Calculate each term separately:`,
-                            `${bases[0]}<sup>${exps[0]}</sup> = ${val1}`,
-                            `${bases[1]}<sup>${exps[1]}</sup> = ${val2}`,
-                            `${val1} × ${val2} = ${answer}`
-                        ];
-                    }
-                }
-                
-                return {
-                    html,
-                    answer: answer.toString(),
-                    steps,
-                    hint: "Enter the numerical value",
-                    type: "indices"
-                };
-            },
-
-            surds: () => {
-                const difficulty = state.difficulty;
-                let html, answer, steps = [];
-                
-                if (difficulty === 'easy') {
-                    // Simplify surd
-                    const squares = [4, 9, 16, 25, 36, 49, 64, 81, 100];
-                    const square = mathUtils.randomChoice(squares);
-                    const factor = mathUtils.randomInt(2, 5);
-                    const num = square * factor;
-                    
-                    html = `Simplify √${num}`;
-                    const simplified = Math.sqrt(square);
-                    answer = factor === 1 ? simplified.toString() : `${simplified}√${factor}`;
-                    
-                    steps = [
-                        `Factor ${num} into perfect square and remaining:`,
-                        `√${num} = √(${square} × ${factor})`,
-                        `= √${square} × √${factor}`,
-                        `= ${simplified}√${factor}`
-                    ];
-                } else if (difficulty === 'medium') {
-                    // Rationalize denominator
-                    const den = mathUtils.randomChoice([2, 3, 5, 6, 7, 8, 10, 11, 12]);
-                    const num = den * mathUtils.randomInt(1, 5);
-                    
-                    html = `Rationalize: ${num}/√${den}`;
-                    answer = `${num}√${den}/${den}`;
-                    
-                    steps = [
-                        `Multiply numerator and denominator by √${den}:`,
-                        `(${num} × √${den}) / (√${den} × √${den})`,
-                        `= ${num}√${den} / ${den}`
-                    ];
-                } else { // hard
-                    // Surd multiplication
-                    const a = mathUtils.randomInt(2, 6);
-                    const b = mathUtils.randomInt(2, 6);
-                    const c = mathUtils.randomInt(2, 6);
-                    
-                    if (mathUtils.randomInt(1, 2) === 1) {
-                        html = `Simplify: √${a} × √${b}`;
-                        const product = a * b;
-                        const sqrt = Math.sqrt(product);
-                        if (mathUtils.isPerfectSquare(product)) {
-                            answer = sqrt.toString();
-                            steps = [
-                                `√${a} × √${b} = √(${a} × ${b})`,
-                                `= √${product}`,
-                                `= ${sqrt}`
-                            ];
-                        } else {
-                            answer = `√${product}`;
-                            steps = [
-                                `√${a} × √${b} = √(${a} × ${b})`,
-                                `= √${product}`
-                            ];
-                        }
-                    } else {
-                        html = `Simplify: (√${a} + √${b})(√${a} - √${b})`;
-                        answer = (a - b).toString();
-                        steps = [
-                            `Apply difference of squares: (x+y)(x-y) = x² - y²`,
-                            `= (√${a})² - (√${b})²`,
-                            `= ${a} - ${b}`,
-                            `= ${a - b}`
-                        ];
-                    }
-                }
-                
-                return {
-                    html,
-                    answer,
-                    steps,
-                    hint: "Use format: a√b or a/b√c",
-                    type: "surds"
-                };
-            },
-
-            logs: () => {
-                const difficulty = state.difficulty;
-                let html, answer, steps = [];
-                
-                if (difficulty === 'easy') {
-                    const base = mathUtils.randomInt(2, 5);
-                    const value = Math.pow(base, mathUtils.randomInt(1, 3));
-                    html = `log<sub>${base}</sub> ${value}`;
-                    answer = Math.log(value) / Math.log(base);
-                    steps = [
-                        `log<sub>${base}</sub> ${value} = ?`,
-                        `${base}<sup>x</sup> = ${value}`,
-                        `${base}<sup>${Math.round(answer)}</sup> = ${value}`,
-                        `Answer = ${Math.round(answer)}`
-                    ];
-                } else if (difficulty === 'medium') {
-                    const a = mathUtils.randomInt(2, 5);
-                    const b = mathUtils.randomInt(2, 5);
-                    html = `log ${a} + log ${b}`;
-                    answer = Math.log10(a * b).toFixed(4);
-                    steps = [
-                        `log a + log b = log(a × b)`,
-                        `log ${a} + log ${b} = log(${a} × ${b})`,
-                        `= log ${a * b}`,
-                        `≈ ${answer}`
-                    ];
-                } else { // hard
-                    const base = mathUtils.randomInt(2, 5);
-                    const power = mathUtils.randomInt(2, 4);
-                    const value = Math.pow(base, power);
-                    
-                    if (mathUtils.randomInt(1, 2) === 1) {
-                        html = `log<sub>${base}</sub> x = ${power}`;
-                        answer = value.toString();
-                        steps = [
-                            `log<sub>${base}</sub> x = ${power}`,
-                            `x = ${base}<sup>${power}</sup>`,
-                            `x = ${value}`
-                        ];
-                    } else {
-                        html = `log<sub>${base}</sub> ${value}`;
-                        answer = power.toString();
-                        steps = [
-                            `${base}<sup>x</sup> = ${value}`,
-                            `${base}<sup>${power}</sup> = ${value}`,
-                            `x = ${power}`
-                        ];
-                    }
-                }
-                
-                return {
-                    html,
-                    answer,
-                    steps,
-                    hint: "Enter numerical value",
-                    type: "logs"
-                };
-            },
-
-            linear: () => {
-                const difficulty = state.difficulty;
-                let html, answer, steps = [];
-                
-                const x = mathUtils.randomInt(-10, 10);
-                let a = mathUtils.randomCoefficient();
-                let b = mathUtils.randomCoefficient();
-                
-                // Ensure equation is interesting
-                if (a === 0) a = 1;
-                if (b === 0) b = mathUtils.randomInt(1, 5);
-                
-                const c = a * x + b;
-                
-                const bSign = b >= 0 ? '+' : '-';
-                const bAbs = Math.abs(b);
-                
-                html = `Solve for x: ${a}x ${bSign} ${bAbs} = ${c}`;
-                answer = x.toString();
-                
-                steps = [
-                    `${a}x ${bSign} ${bAbs} = ${c}`,
-                    `${a}x = ${c} ${b >= 0 ? '-' : '+'} ${bAbs}`,
-                    `${a}x = ${c - b}`,
-                    `x = ${c - b} / ${a}`,
-                    `x = ${x}`
-                ];
-                
-                return {
-                    html,
-                    answer,
-                    steps,
-                    hint: "Enter value of x",
-                    type: "linear"
-                };
-            },
-
-            quadratic: () => {
-                const difficulty = state.difficulty;
-                let html, answer, steps = [];
-                
-                // Generate roots
-                let r1, r2;
-                do {
-                    r1 = mathUtils.randomInt(-8, 8);
-                    r2 = mathUtils.randomInt(-8, 8);
-                } while (r1 === r2); // Ensure distinct roots
-                
-                // For hard difficulty, sometimes make one root zero
-                if (difficulty === 'hard' && mathUtils.randomInt(1, 3) === 1) {
-                    r1 = 0;
-                    r2 = mathUtils.randomInt(-6, 6);
-                    if (r2 === 0) r2 = 1;
-                }
-                
-                const a = 1;
-                const b = -(r1 + r2);
-                const c = r1 * r2;
-                
-                // Build equation string
-                let equation = `x²`;
-                if (b !== 0) {
-                    equation += ` ${mathUtils.formatWithSign(b)}x`;
-                }
-                if (c !== 0) {
-                    equation += ` ${mathUtils.formatWithSign(c)}`;
-                }
-                equation += ` = 0`;
-                
-                html = `Solve: ${equation}`;
-                
-                // Sort roots for consistent answer format
-                const roots = [r1, r2].sort((x, y) => x - y);
-                answer = roots.join(', ');
-                
-                // Calculate discriminant
-                const discriminant = b * b - 4 * a * c;
-                const sqrtDiscriminant = Math.sqrt(Math.abs(discriminant));
-                
-                steps = [
-                    `Equation: ${equation}`,
-                    `a = ${a}, b = ${b}, c = ${c}`,
-                    `Discriminant: D = b² - 4ac = (${b})² - 4(${a})(${c}) = ${discriminant}`
-                ];
-                
-                if (discriminant >= 0) {
-                    steps.push(
-                        `x = [-b ± √D] / 2a`,
-                        `x = [${-b} ± √${discriminant}] / 2`,
-                        `x = [${-b} ± ${sqrtDiscriminant.toFixed(2)}] / 2`,
-                        `x₁ = ${r1}, x₂ = ${r2}`
-                    );
-                } else {
-                    steps.push(
-                        `Discriminant is negative (${discriminant}), roots are complex`,
-                        `Real roots don't exist for this equation`
-                    );
-                }
-                
-                return {
-                    html,
-                    answer,
-                    steps,
-                    hint: "Enter roots separated by comma (e.g., -2, 3)",
-                    type: "quadratic"
-                };
-            },
-
-            simultaneous: () => {
-                const difficulty = state.difficulty;
-                let html, answer, steps = [];
-                
-                // Generate solution
-                const x = mathUtils.randomInt(-5, 5);
-                const y = mathUtils.randomInt(-5, 5);
-                
-                // Generate coefficients
-                const a1 = mathUtils.randomCoefficient();
-                const b1 = mathUtils.randomCoefficient();
-                const a2 = mathUtils.randomCoefficient();
-                const b2 = mathUtils.randomCoefficient();
-                
-                // Calculate constants
-                const c1 = a1 * x + b1 * y;
-                const c2 = a2 * x + b2 * y;
-                
-                // Format equations properly
-                const formatTerm = (coeff, variable) => {
-                    if (coeff === 0) return '';
-                    if (coeff === 1) return variable;
-                    if (coeff === -1) return `-${variable}`;
-                    return `${coeff}${variable}`;
-                };
-                
-                const eq1 = `${formatTerm(a1, 'x')} ${b1 >= 0 ? '+' : ''} ${formatTerm(b1, 'y')} = ${c1}`.replace('  ', ' ');
-                const eq2 = `${formatTerm(a2, 'x')} ${b2 >= 0 ? '+' : ''} ${formatTerm(b2, 'y')} = ${c2}`.replace('  ', ' ');
-                
-                html = `Solve:<br>${eq1}<br>${eq2}`;
-                answer = `x=${x}, y=${y}`;
-                
-                steps = [
-                    `Equations:`,
-                    `1) ${eq1}`,
-                    `2) ${eq2}`,
-                    `Using elimination method:`,
-                    `Multiply equation 1 by ${a2} and equation 2 by ${-a1}`,
-                    `Add the equations to eliminate x`,
-                    `Solve for y: y = ${y}`,
-                    `Substitute into equation 1: x = ${x}`,
-                    `Solution: x = ${x}, y = ${y}`
-                ];
-                
-                return {
-                    html,
-                    answer,
-                    steps,
-                    hint: "Enter in format: x=value, y=value",
-                    type: "simultaneous"
-                };
-            },
-
-            arithmetic: () => {
-                const difficulty = state.difficulty;
-                let html, answer, steps = [];
-                
-                const a = mathUtils.randomInt(1, 10);
-                const d = mathUtils.randomCoefficient();
-                const n = mathUtils.randomInt(5, 15);
-                
-                const type = mathUtils.randomInt(1, 3);
-                
-                if (type === 1) {
-                    // Find nth term
-                    html = `Find term ${n} of AP: ${a}, ${a + d}, ${a + 2*d}, ...`;
-                    const term = a + (n - 1) * d;
-                    answer = term.toString();
-                    steps = [
-                        `AP formula: Tₙ = a + (n-1)d`,
-                        `a = ${a}, d = ${d}, n = ${n}`,
-                        `T${n} = ${a} + (${n} - 1) × ${d}`,
-                        `= ${a} + ${(n - 1) * d}`,
-                        `= ${term}`
-                    ];
-                } else if (type === 2) {
-                    // Find sum
-                    html = `Find sum of first ${n} terms of AP: ${a}, ${a + d}, ${a + 2*d}, ...`;
-                    const sum = (n / 2) * (2 * a + (n - 1) * d);
-                    answer = sum.toString();
-                    steps = [
-                        `Sum formula: Sₙ = n/2 × [2a + (n-1)d]`,
-                        `n = ${n}, a = ${a}, d = ${d}`,
-                        `S${n} = ${n}/2 × [2×${a} + (${n}-1)×${d}]`,
-                        `= ${n / 2} × [${2 * a} + ${(n - 1) * d}]`,
-                        `= ${n / 2} × ${2 * a + (n - 1) * d}`,
-                        `= ${sum}`
-                    ];
-                } else {
-                    // Find which term equals value
-                    const termNum = mathUtils.randomInt(5, 12);
-                    const value = a + (termNum - 1) * d;
-                    html = `Which term of AP ${a}, ${a + d}, ${a + 2*d}, ... equals ${value}?`;
-                    answer = termNum.toString();
-                    steps = [
-                        `Tₙ = a + (n-1)d = ${value}`,
-                        `${a} + (n-1)×${d} = ${value}`,
-                        `(n-1)×${d} = ${value - a}`,
-                        `n-1 = ${(value - a) / d}`,
-                        `n = ${((value - a) / d) + 1}`,
-                        `n = ${termNum}`
-                    ];
-                }
-                
-                return {
-                    html,
-                    answer,
-                    steps,
-                    hint: "Enter numerical value",
-                    type: "arithmetic"
-                };
-            }
-        };
-
-        // ========== CORE FUNCTIONS ==========
-        function generateQuestion() {
-            // Reset display
-            elements.solutionArea.style.display = 'none';
-            elements.answerDisplay.style.display = 'none';
-            elements.answerInput.value = '';
-            
-            // Show question area
-            elements.questionArea.style.display = 'block';
-            elements.answerArea.style.display = 'block';
-            
-            // Get topic and generate question
-            state.currentTopic = elements.topicSelect.value;
-            const generator = generators[state.currentTopic];
-            
-            try {
-                state.currentQuestion = generator();
-                state.startTime = Date.now();
-                
-                // Display question
-                elements.questionDisplay.innerHTML = state.currentQuestion.html;
-                elements.answerHint.textContent = state.currentQuestion.hint;
-                
-                // Focus input
-                setTimeout(() => elements.answerInput.focus(), 100);
-                
-                // Add to history
-                state.questionHistory.push({
-                    topic: state.currentTopic,
-                    question: state.currentQuestion.html,
-                    time: new Date().toISOString()
-                });
-                
-                // Update progress
-                updateProgress();
-                
-            } catch (error) {
-                console.error('Error generating question:', error);
-                elements.questionDisplay.innerHTML = 
-                    '<span style="color: var(--error)">Error generating question. Please try again.</span>';
-            }
-        }
-
-        function checkAnswer() {
-            if (!state.currentQuestion) return;
-            
-            const userAnswer = elements.answerInput.value.trim();
-            if (!userAnswer) return;
-            
-            // Calculate time taken
-            const timeTaken = Math.max(1, Math.floor((Date.now() - state.startTime) / 1000));
-            elements.solutionTime.textContent = `Time: ${timeTaken}s`;
-            
-            // Validate answer based on question type
-            let isCorrect = false;
-            let correctAnswer = state.currentQuestion.answer;
-            
-            switch (state.currentQuestion.type) {
-                case 'quadratic':
-                    // Sort user's roots and compare
-                    const userRoots = userAnswer.split(',').map(s => parseFloat(s.trim())).sort((a, b) => a - b);
-                    const correctRoots = correctAnswer.split(',').map(s => parseFloat(s.trim())).sort((a, b) => a - b);
-                    isCorrect = userRoots.length === 2 && 
-                               Math.abs(userRoots[0] - correctRoots[0]) < 0.01 &&
-                               Math.abs(userRoots[1] - correctRoots[1]) < 0.01;
-                    break;
-                    
-                case 'simultaneous':
-                    // Parse x=value, y=value format
-                    const match = userAnswer.match(/x\s*[=:]\s*([-\d.]+)\s*[,;]\s*y\s*[=:]\s*([-\d.]+)/i);
-                    if (match) {
-                        const userX = parseFloat(match[1]);
-                        const userY = parseFloat(match[2]);
-                        const correctMatch = correctAnswer.match(/x=([-\d.]+), y=([-\d.]+)/);
-                        if (correctMatch) {
-                            const correctX = parseFloat(correctMatch[1]);
-                            const correctY = parseFloat(correctMatch[2]);
-                            isCorrect = Math.abs(userX - correctX) < 0.01 && 
-                                       Math.abs(userY - correctY) < 0.01;
-                        }
-                    }
-                    break;
-                    
-                case 'surds':
-                    // Normalize surd format for comparison
-                    const normalizeSurd = (str) => {
-                        return str.toLowerCase()
-                            .replace(/\s+/g, '')
-                            .replace(/√/g, 'sqrt')
-                            .replace(/(\d+)sqrt(\d+)/g, '$1√$2')
-                            .replace(/sqrt(\d+)/g, '√$1');
-                    };
-                    isCorrect = normalizeSurd(userAnswer) === normalizeSurd(correctAnswer);
-                    break;
-                    
-                default:
-                    // Numerical comparison
-                    const userNum = parseFloat(userAnswer);
-                    const correctNum = parseFloat(correctAnswer);
-                    isCorrect = !isNaN(userNum) && Math.abs(userNum - correctNum) < 0.01;
-            }
-            
-            // Update statistics
-            state.total++;
-            if (isCorrect) {
-                state.correct++;
-                state.streak++;
-                state.score += Math.max(1, Math.floor(50 / timeTaken)); // Bonus for speed
-                
-                if (state.streak > state.maxStreak) {
-                    state.maxStreak = state.streak;
-                }
-                
-                // Visual feedback
-                elements.answerInput.style.borderColor = 'var(--success)';
-                elements.answerInput.style.boxShadow = '0 0 0 3px rgba(56, 176, 0, 0.2)';
-            } else {
-                state.streak = 0;
-                elements.answerInput.style.borderColor = 'var(--error)';
-                elements.answerInput.style.boxShadow = '0 0 0 3px rgba(255, 0, 110, 0.2)';
-            }
-            
-            // Update UI
-            updateStatistics();
-            showSolution(isCorrect);
-        }
-
-        function showSolution(isCorrect) {
-            // Show solution area
-            elements.solutionArea.style.display = 'block';
-            elements.solutionArea.className = isCorrect ? 
-                'solution-area solution-correct' : 
-                'solution-area solution-incorrect';
-            
-            // Update title
-            elements.solutionTitle.innerHTML = isCorrect ? 
-                '<span class="icon-check"></span> Correct!' : 
-                '<span class="icon-cross"></span> Incorrect';
-            
-            // Show correct answer if wrong
-            if (!isCorrect) {
-                elements.answerDisplay.style.display = 'block';
-                elements.answerDisplay.className = 'answer-display incorrect';
-                elements.correctAnswer.textContent = state.currentQuestion.answer;
-            }
-            
-            // Display steps
-            if (state.currentQuestion.steps) {
-                const stepsHtml = state.currentQuestion.steps
-                    .map(step => `<div class="step">${step}</div>`)
-                    .join('');
-                elements.solutionSteps.innerHTML = stepsHtml;
-            }
-            
-            // Scroll to solution
-            elements.solutionArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        function updateStatistics() {
-            elements.score.textContent = state.score;
-            elements.total.textContent = state.total;
-            elements.streak.textContent = state.streak;
-            
-            const accuracy = state.total > 0 ? 
-                Math.round((state.correct / state.total) * 100) : 100;
-            elements.accuracy.textContent = `${accuracy}%`;
-        }
-
-        function updateProgress() {
-            const progress = state.total % 10 * 10;
-            elements.progressBar.style.width = `${progress}%`;
-        }
-
-        function setDifficulty(level) {
-            state.difficulty = level;
-            
-            // Update UI
-            document.querySelectorAll('.diff-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.level === level) {
-                    btn.classList.add('active');
-                }
-            });
-        }
-
-        function showHint() {
-            state.hintsUsed++;
-            alert(`Hint: ${state.currentQuestion.hint}\n\nTip: ${state.currentQuestion.steps?.[0] || 'Try breaking the problem into smaller steps.'}`);
-        }
-
-        function practiceSimilar() {
-            // Generate another question of same type
-            generateQuestion();
-        }
-
-        // ========== EVENT LISTENERS ==========
-        elements.topicSelect.addEventListener('change', generateQuestion);
+    <div class="card">
+        <div class="card-title">
+            <i class="fas fa-cog"></i> Settings
+        </div>
         
-        elements.answerInput.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
+        <div class="difficulty-selector">
+            <div class="difficulty-btn active" data-level="easy" onclick="setDifficulty('easy')">
+                <i class="fas fa-star"></i> Easy
+            </div>
+            <div class="difficulty-btn" data-level="medium" onclick="setDifficulty('medium')">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i> Medium
+            </div>
+            <div class="difficulty-btn" data-level="hard" onclick="setDifficulty('hard')">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> Hard
+            </div>
+        </div>
+
+        <div class="controls">
+            <select id="topicSelect">
+                <option value="indices">📈 Indices & Exponents</option>
+                <option value="surds">√ Surds & Radicals</option>
+                <option value="logs">📊 Logarithms</option>
+                <option value="linear">📐 Linear Equations</option>
+                <option value="quadratic">🎯 Quadratic Equations</option>
+                <option value="simultaneous">⚖️ Simultaneous Equations</option>
+                <option value="arithmetic">🧮 Arithmetic Progression</option>
+            </select>
+            <button class="btn-primary" onclick="generateQuestion()" id="genBtn">
+                <i class="fas fa-redo"></i> New Question
+            </button>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </div>
+
+    <div class="timer" id="timer">
+        <i class="fas fa-clock"></i> Time: <span id="timeLeft">60</span>s
+    </div>
+
+    <div id="gameArea" class="hidden">
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-question-circle"></i> Question
+            </div>
+            <div class="question-display" id="questionText">
+                Click "New Question" to start
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-edit"></i> Your Answer
+            </div>
+            <div class="input-container">
+                <input type="text" id="userAnswer" placeholder="Enter your answer here..." autocomplete="off">
+                <span class="hint" id="inputHint">Press Enter to submit your answer</span>
+            </div>
+            <button class="btn-success" onclick="checkAnswer()" id="checkBtn">
+                <i class="fas fa-check"></i> Check Answer
+            </button>
+            <button class="btn-warning" onclick="showHint()" style="margin-top: 10px; width: 100%;">
+                <i class="fas fa-lightbulb"></i> Show Hint
+            </button>
+        </div>
+    </div>
+
+    <div class="solution-area" id="solutionBox">
+        <div class="solution-header">
+            <div class="solution-title" id="solutionStatus">
+                <i class="fas fa-solution"></i> Solution
+            </div>
+            <div id="timeTaken">Time: 0s</div>
+        </div>
+        
+        <div id="answerDisplay" class="correct-answer" style="display: none;">
+            Correct Answer: <span id="correctAnswerValue"></span>
+        </div>
+        
+        <div id="steps" class="steps-container"></div>
+        
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button class="btn-primary" onclick="generateQuestion()" style="flex: 1;">
+                <i class="fas fa-forward"></i> Next Question
+            </button>
+            <button class="btn-warning" onclick="practiceSimilar()" style="flex: 1;">
+                <i class="fas fa-redo"></i> Practice Similar
+            </button>
+        </div>
+    </div>
+
+    <div class="card" style="text-align: center; margin-top: 30px;">
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+            <i class="fas fa-info-circle"></i> 
+            Press Enter to submit answer • Use proper mathematical notation • Practice daily for best results
+        </p>
+    </div>
+</div>
+
+<script>
+    // Enhanced State Management
+    const state = {
+        currentTopic: 'indices',
+        currentQuestion: null,
+        difficulty: 'easy',
+        score: 0,
+        total: 0,
+        correct: 0,
+        streak: 0,
+        maxStreak: 0,
+        startTime: null,
+        timerInterval: null,
+        timeLimit: 90,
+        currentTime: 90,
+        hintsUsed: 0
+    };
+
+    // DOM Elements
+    const els = {
+        topic: document.getElementById('topicSelect'),
+        question: document.getElementById('questionText'),
+        input: document.getElementById('userAnswer'),
+        hint: document.getElementById('inputHint'),
+        gameArea: document.getElementById('gameArea'),
+        solutionBox: document.getElementById('solutionBox'),
+        status: document.getElementById('solutionStatus'),
+        steps: document.getElementById('steps'),
+        score: document.getElementById('score'),
+        mobileScore: document.getElementById('mobileScore'),
+        total: document.getElementById('total'),
+        streak: document.getElementById('streak'),
+        accuracy: document.getElementById('accuracy'),
+        checkBtn: document.getElementById('checkBtn'),
+        genBtn: document.getElementById('genBtn'),
+        timer: document.getElementById('timer'),
+        timeLeft: document.getElementById('timeLeft'),
+        progressFill: document.getElementById('progressFill'),
+        answerDisplay: document.getElementById('answerDisplay'),
+        correctAnswerValue: document.getElementById('correctAnswerValue'),
+        timeTaken: document.getElementById('timeTaken')
+    };
+
+    // Math Utilities
+    const math = {
+        rnd: (min, max) => Math.floor(Math.random() * (max - min + 1)) + min,
+        rndItem: (arr) => arr[Math.floor(Math.random() * arr.length)],
+        gcd: (a, b) => b === 0 ? Math.abs(a) : math.gcd(b, a % b),
+        randomPositiveCoefficient: (min = 1, max = 10) => math.rnd(min, max),
+        randomCoefficient: (min = 1, max = 10) => {
+            const val = math.rnd(min, max);
+            return Math.random() > 0.5 ? val : -val;
+        },
+        // Find largest perfect square factor
+        largestPerfectSquareFactor: (n) => {
+            let largest = 1;
+            for (let i = 2; i * i <= n; i++) {
+                while (n % (i * i) === 0) {
+                    largest *= i;
+                    n /= (i * i);
+                }
+            }
+            return { perfectSquareRoot: largest, remainder: n };
+        },
+        // Format coefficient for display
+        formatCoeff: (coeff, isFirst = false) => {
+            if (coeff === 0) return '';
+            if (coeff === 1) return isFirst ? '' : '+ ';
+            if (coeff === -1) return isFirst ? '-' : '- ';
+            if (coeff > 0) return isFirst ? `${coeff}` : `+ ${coeff}`;
+            return isFirst ? `${coeff}` : `- ${Math.abs(coeff)}`;
+        },
+        // Format term for equations
+        formatTerm: (coeff, variable, isFirst = false) => {
+            if (coeff === 0) return '';
+            const sign = coeff >= 0 ? (isFirst ? '' : ' + ') : (isFirst ? '-' : ' - ');
+            const absCoeff = Math.abs(coeff);
+            const coeffStr = absCoeff === 1 ? '' : absCoeff;
+            return `${sign}${coeffStr}${variable}`;
+        }
+    };
+
+    // Enhanced Generators - All Fixed
+    const generators = {
+        indices: () => {
+            const difficultyConfig = {
+                easy: { baseRange: [2, 5], expRange: [1, 3], types: [1, 2] },
+                medium: { baseRange: [2, 7], expRange: [1, 5], types: [1, 2, 3] },
+                hard: { baseRange: [2, 9], expRange: [1, 6], types: [1, 2, 3, 4] }
+            };
+            
+            const config = difficultyConfig[state.difficulty];
+            const base = math.rnd(...config.baseRange);
+            const type = math.rndItem(config.types);
+            let latex, answer, steps = [];
+            
+            if (type === 1) {
+                // Multiplication and division: a^m × a^n ÷ a^p
+                const e1 = math.rnd(...config.expRange);
+                const e2 = math.rnd(...config.expRange);
+                const e3 = math.rnd(1, Math.min(e1 + e2 - 1, config.expRange[1]));
+                const resultExp = e1 + e2 - e3;
+                
+                latex = `${base}^{${e1}} \\times ${base}^{${e2}} \\div ${base}^{${e3}}`;
+                answer = Math.pow(base, resultExp);
+                steps = [
+                    `Apply multiplication rule: $a^m \\times a^n = a^{m+n}$`,
+                    `$${base}^{${e1}} \\times ${base}^{${e2}} = ${base}^{${e1}+${e2}} = ${base}^{${e1+e2}}$`,
+                    `Apply division rule: $a^m \\div a^n = a^{m-n}$`,
+                    `$${base}^{${e1+e2}} \\div ${base}^{${e3}} = ${base}^{${e1+e2}-${e3}} = ${base}^{${resultExp}}$`,
+                    `Calculate: $${base}^{${resultExp}} = ${answer}$`
+                ];
+            } else if (type === 2) {
+                // Power of power: (a^m)^n
+                const e1 = math.rnd(1, 3);
+                const e2 = math.rnd(2, 3);
+                const resultExp = e1 * e2;
+                
+                latex = `(${base}^{${e1}})^{${e2}}`;
+                answer = Math.pow(base, resultExp);
+                steps = [
+                    `Apply power rule: $(a^m)^n = a^{m \\times n}$`,
+                    `$(${base}^{${e1}})^{${e2}} = ${base}^{${e1} \\times ${e2}}$`,
+                    `$= ${base}^{${resultExp}}$`,
+                    `Calculate: $${base}^{${resultExp}} = ${answer}$`
+                ];
+            } else if (type === 3) {
+                // nth root as fractional exponent
+                const n = math.rnd(2, 3);
+                const e1 = math.rnd(1, 3);
+                const innerExp = e1 * n;
+                
+                latex = `\\sqrt[${n}]{${base}^{${innerExp}}}`;
+                answer = Math.pow(base, e1);
+                steps = [
+                    `Convert root to fractional exponent: $\\sqrt[n]{a^m} = a^{m/n}$`,
+                    `$\\sqrt[${n}]{${base}^{${innerExp}}} = ${base}^{${innerExp}/${n}}$`,
+                    `$= ${base}^{${e1}}$`,
+                    `Calculate: $${base}^{${e1}} = ${answer}$`
+                ];
+            } else {
+                // Different bases multiplication
+                const base2 = math.rnd(2, 5);
+                const e1 = math.rnd(2, 3);
+                const e2 = math.rnd(2, 3);
+                const val1 = Math.pow(base, e1);
+                const val2 = Math.pow(base2, e2);
+                
+                latex = `${base}^{${e1}} \\times ${base2}^{${e2}}`;
+                answer = val1 * val2;
+                steps = [
+                    `Calculate each term separately:`,
+                    `$${base}^{${e1}} = ${val1}$`,
+                    `$${base2}^{${e2}} = ${val2}$`,
+                    `Multiply: $${val1} \\times ${val2} = ${answer}$`
+                ];
+            }
+            
+            return {
+                latex,
+                answer: answer,
+                answerDisplay: answer.toString(),
+                steps,
+                hint: "Enter the numerical value",
+                type: "indices"
+            };
+        },
+
+        surds: () => {
+            const difficultyConfig = {
+                easy: { 
+                    simplifyNums: [8, 12, 18, 20, 27, 32, 45, 48, 50],
+                    types: [1]
+                },
+                medium: { 
+                    simplifyNums: [8, 12, 18, 20, 27, 32, 45, 48, 50, 72, 75, 98],
+                    types: [1, 2]
+                },
+                hard: { 
+                    simplifyNums: [32, 45, 48, 50, 72, 75, 98, 108, 125, 128, 147, 162],
+                    types: [1, 2, 3]
+                }
+            };
+            
+            const config = difficultyConfig[state.difficulty];
+            const type = math.rndItem(config.types);
+            let latex, answer, answerDisplay, steps = [];
+            
+            if (type === 1) {
+                // Simplify √n
+                const num = math.rndItem(config.simplifyNums);
+                const { perfectSquareRoot, remainder } = math.largestPerfectSquareFactor(num);
+                
+                latex = `\\text{Simplify: } \\sqrt{${num}}`;
+                
+                if (perfectSquareRoot === 1) {
+                    answer = Math.sqrt(num);
+                    answerDisplay = `√${num}`;
+                    steps = [
+                        `$\\sqrt{${num}}$ has no perfect square factors`,
+                        `It is already in simplest form: $\\sqrt{${num}}$`
+                    ];
+                } else {
+                    const perfectSquare = perfectSquareRoot * perfectSquareRoot;
+                    answer = perfectSquareRoot; // Coefficient
+                    answerDisplay = perfectSquareRoot === 1 ? `√${remainder}` : `${perfectSquareRoot}√${remainder}`;
+                    
+                    steps = [
+                        `Find perfect square factors of ${num}:`,
+                        `$${num} = ${perfectSquare} \\times ${remainder}$`,
+                        `$\\sqrt{${num}} = \\sqrt{${perfectSquare} \\times ${remainder}}$`,
+                        `$= \\sqrt{${perfectSquare}} \\times \\sqrt{${remainder}}$`,
+                        `$= ${perfectSquareRoot}\\sqrt{${remainder}}$`
+                    ];
+                }
+                
+                return {
+                    latex,
+                    answer: answerDisplay,
+                    answerDisplay,
+                    remainder: remainder,
+                    coefficient: perfectSquareRoot,
+                    steps,
+                    hint: `Enter as coefficient√remainder (e.g., 3√2) or just √n`,
+                    type: "surds",
+                    subtype: "simplify"
+                };
+            } else if (type === 2) {
+                // Rationalize denominator: n/√d
+                const d = math.rndItem([2, 3, 5, 6, 7]);
+                const multiplier = math.rnd(1, 4);
+                const n = d * multiplier;
+                
+                latex = `\\text{Rationalize: } \\frac{${n}}{\\sqrt{${d}}}`;
+                answerDisplay = multiplier === 1 ? `√${d}` : `${multiplier}√${d}`;
+                answer = multiplier;
+                
+                steps = [
+                    `Multiply numerator and denominator by $\\sqrt{${d}}$:`,
+                    `$\\frac{${n}}{\\sqrt{${d}}} \\times \\frac{\\sqrt{${d}}}{\\sqrt{${d}}}$`,
+                    `$= \\frac{${n}\\sqrt{${d}}}{${d}}$`,
+                    `$= ${multiplier === 1 ? '' : multiplier}\\sqrt{${d}}$`
+                ];
+                
+                return {
+                    latex,
+                    answer: answerDisplay,
+                    answerDisplay,
+                    remainder: d,
+                    coefficient: multiplier,
+                    steps,
+                    hint: `Enter as coefficient√remainder (e.g., 2√3)`,
+                    type: "surds",
+                    subtype: "rationalize"
+                };
+            } else {
+                // Multiply surds: √a × √b
+                const a = math.rndItem([2, 3, 5, 6, 7]);
+                const b = math.rndItem([2, 3, 5, 6, 8]);
+                const product = a * b;
+                const { perfectSquareRoot, remainder } = math.largestPerfectSquareFactor(product);
+                
+                latex = `\\text{Simplify: } \\sqrt{${a}} \\times \\sqrt{${b}}`;
+                
+                if (perfectSquareRoot === 1) {
+                    answerDisplay = `√${product}`;
+                } else if (remainder === 1) {
+                    answerDisplay = `${perfectSquareRoot}`;
+                } else {
+                    answerDisplay = `${perfectSquareRoot}√${remainder}`;
+                }
+                answer = perfectSquareRoot;
+                
+                steps = [
+                    `Apply rule: $\\sqrt{a} \\times \\sqrt{b} = \\sqrt{ab}$`,
+                    `$\\sqrt{${a}} \\times \\sqrt{${b}} = \\sqrt{${a} \\times ${b}} = \\sqrt{${product}}$`,
+                    perfectSquareRoot > 1 ? `Simplify: $\\sqrt{${product}} = ${answerDisplay}$` : `$\\sqrt{${product}}$ is already simplified`
+                ];
+                
+                return {
+                    latex,
+                    answer: answerDisplay,
+                    answerDisplay,
+                    remainder: remainder,
+                    coefficient: perfectSquareRoot,
+                    steps,
+                    hint: `Enter as coefficient√remainder or just √n or just a number`,
+                    type: "surds",
+                    subtype: "multiply"
+                };
+            }
+        },
+
+        logs: () => {
+            const difficultyConfig = {
+                easy: { baseRange: [2, 5], powerRange: [1, 4], types: [1, 4] },
+                medium: { baseRange: [2, 8], powerRange: [1, 5], types: [1, 3, 4] },
+                hard: { baseRange: [2, 10], powerRange: [1, 6], types: [1, 2, 3, 4] }
+            };
+            
+            const config = difficultyConfig[state.difficulty];
+            const type = math.rndItem(config.types);
+            let latex, answer, steps = [];
+            
+            if (type === 1) {
+                // Basic: log_b(b^n) = n
+                const base = math.rnd(...config.baseRange);
+                const power = math.rnd(...config.powerRange);
+                const value = Math.pow(base, power);
+                
+                latex = `\\log_{${base}} ${value}`;
+                answer = power;
+                steps = [
+                    `We need to find $x$ such that $${base}^x = ${value}$`,
+                    `Since $${base}^{${power}} = ${value}$`,
+                    `Therefore, $\\log_{${base}} ${value} = ${power}$`
+                ];
+            } else if (type === 2) {
+                // Log addition: log(a) + log(b) = log(ab)
+                const base = 10;
+                const a = math.rnd(2, 5);
+                const b = math.rnd(2, 5);
+                const product = a * b;
+                
+                latex = `\\log ${a} + \\log ${b}`;
+                answer = product;
+                steps = [
+                    `Apply product rule: $\\log a + \\log b = \\log(ab)$`,
+                    `$\\log ${a} + \\log ${b} = \\log(${a} \\times ${b})$`,
+                    `$= \\log ${product}$`,
+                    `Answer: $\\log ${product}$ (or enter ${product} as the argument)`
+                ];
+            } else if (type === 3) {
+                // Solve for x: log_b(x) = n
+                const base = math.rnd(2, 5);
+                const power = math.rnd(2, 4);
+                
+                latex = `\\text{If } \\log_{${base}} x = ${power}, \\text{ find } x`;
+                answer = Math.pow(base, power);
+                steps = [
+                    `Convert to exponential form:`,
+                    `$\\log_{${base}} x = ${power}$ means $${base}^{${power}} = x$`,
+                    `$x = ${base}^{${power}} = ${Math.pow(base, power)}$`
+                ];
+            } else {
+                // Direct: log_a(a^b)
+                const base = math.rnd(2, 6);
+                const exp = math.rnd(2, 4);
+                const value = Math.pow(base, exp);
+                
+                latex = `\\log_{${base}} ${value}`;
+                answer = exp;
+                steps = [
+                    `Find what power of ${base} gives ${value}:`,
+                    `$${base}^{?} = ${value}$`,
+                    `$${base}^{${exp}} = ${value}$`,
+                    `Therefore, $\\log_{${base}} ${value} = ${exp}$`
+                ];
+            }
+            
+            return {
+                latex,
+                answer,
+                answerDisplay: answer.toString(),
+                steps,
+                hint: "Enter the numerical value",
+                type: "logs"
+            };
+        },
+
+        linear: () => {
+            const difficultyConfig = {
+                easy: { coeffRange: [2, 6], constRange: [1, 10], xRange: [1, 5] },
+                medium: { coeffRange: [2, 9], constRange: [-10, 10], xRange: [-5, 5] },
+                hard: { coeffRange: [2, 12], constRange: [-15, 15], xRange: [-8, 8] }
+            };
+            
+            const config = difficultyConfig[state.difficulty];
+            
+            // Generate equation: ax + b = c where x is the solution
+            const a = math.rnd(...config.coeffRange) * (Math.random() > 0.3 ? 1 : -1);
+            const x = math.rnd(...config.xRange);
+            const b = math.rnd(...config.constRange);
+            const c = a * x + b;
+            
+            // Format equation properly
+            const aStr = a === 1 ? '' : (a === -1 ? '-' : a);
+            const bStr = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+            
+            const latex = `${aStr}x ${bStr} = ${c}`;
+            const answer = x;
+            
+            const steps = [
+                `Given equation: $${aStr}x ${bStr} = ${c}$`,
+                `Step 1: Move constant to right side`,
+                `$${aStr}x = ${c} ${b >= 0 ? '-' : '+'} ${Math.abs(b)}$`,
+                `$${aStr}x = ${c - b}$`,
+                `Step 2: Divide both sides by ${a}`,
+                `$x = \\frac{${c - b}}{${a}} = ${x}$`
+            ];
+            
+            return {
+                latex: `\\text{Solve: } ${latex}`,
+                answer,
+                answerDisplay: answer.toString(),
+                steps,
+                hint: "Enter the value of x",
+                type: "linear"
+            };
+        },
+
+        quadratic: () => {
+            const difficultyConfig = {
+                easy: { rootRange: [-4, 4] },
+                medium: { rootRange: [-6, 6] },
+                hard: { rootRange: [-8, 8] }
+            };
+            
+            const config = difficultyConfig[state.difficulty];
+            
+            // Generate integer roots
+            let r1 = math.rnd(...config.rootRange);
+            let r2 = math.rnd(...config.rootRange);
+            
+            // Ensure distinct non-zero roots for cleaner problems
+            while (r1 === r2 || r1 === 0 || r2 === 0) {
+                r1 = math.rnd(...config.rootRange);
+                r2 = math.rnd(...config.rootRange);
+            }
+            
+            // x² - (r1+r2)x + r1*r2 = 0
+            const b = -(r1 + r2);
+            const c = r1 * r2;
+            
+            // Build equation string properly
+            let equation = 'x^2';
+            if (b !== 0) {
+                equation += b > 0 ? ` + ${b}x` : ` - ${Math.abs(b)}x`;
+            }
+            if (c !== 0) {
+                equation += c > 0 ? ` + ${c}` : ` - ${Math.abs(c)}`;
+            }
+            equation += ' = 0';
+            
+            const roots = [r1, r2].sort((a, b) => a - b);
+            const answer = roots.join(', ');
+            
+            const discriminant = b * b - 4 * c;
+            
+            const steps = [
+                `Given: $${equation}$`,
+                `Here $a = 1, b = ${b}, c = ${c}$`,
+                `Discriminant: $\\Delta = b^2 - 4ac = (${b})^2 - 4(1)(${c}) = ${discriminant}$`,
+                `Using quadratic formula: $x = \\frac{-b \\pm \\sqrt{\\Delta}}{2a}$`,
+                `$x = \\frac{${-b} \\pm \\sqrt{${discriminant}}}{2}$`,
+                `$x = \\frac{${-b} \\pm ${Math.sqrt(discriminant)}}{2}$`,
+                `$x_1 = \\frac{${-b} + ${Math.sqrt(discriminant)}}{2} = ${Math.max(r1, r2)}$`,
+                `$x_2 = \\frac{${-b} - ${Math.sqrt(discriminant)}}{2} = ${Math.min(r1, r2)}$`,
+                `Roots: $x = ${roots[0]}, ${roots[1]}$`
+            ];
+            
+            return {
+                latex: `\\text{Solve: } ${equation}`,
+                answer,
+                answerDisplay: answer,
+                roots: roots,
+                steps,
+                hint: "Enter both roots separated by comma (smaller first), e.g., -3, 2",
+                type: "quadratic"
+            };
+        },
+
+        simultaneous: () => {
+            const difficultyConfig = {
+                easy: { coeffRange: [1, 4], solRange: [1, 5] },
+                medium: { coeffRange: [1, 6], solRange: [-5, 5] },
+                hard: { coeffRange: [1, 8], solRange: [-7, 7] }
+            };
+            
+            const config = difficultyConfig[state.difficulty];
+            
+            // Generate solution first
+            const x = math.rnd(...config.solRange);
+            const y = math.rnd(...config.solRange);
+            
+            // Generate coefficients (avoid zero and ensure solvable)
+            let a1, b1, a2, b2;
+            do {
+                a1 = math.rnd(1, config.coeffRange[1]) * (Math.random() > 0.5 ? 1 : -1);
+                b1 = math.rnd(1, config.coeffRange[1]) * (Math.random() > 0.5 ? 1 : -1);
+                a2 = math.rnd(1, config.coeffRange[1]) * (Math.random() > 0.5 ? 1 : -1);
+                b2 = math.rnd(1, config.coeffRange[1]) * (Math.random() > 0.5 ? 1 : -1);
+            } while (a1 * b2 === a2 * b1); // Ensure unique solution
+            
+            const c1 = a1 * x + b1 * y;
+            const c2 = a2 * x + b2 * y;
+            
+            // Format equations properly
+            const formatEq = (a, b, c) => {
+                let eq = '';
+                // x term
+                if (a === 1) eq += 'x';
+                else if (a === -1) eq += '-x';
+                else eq += `${a}x`;
+                // y term
+                if (b === 1) eq += ' + y';
+                else if (b === -1) eq += ' - y';
+                else if (b > 0) eq += ` + ${b}y`;
+                else eq += ` - ${Math.abs(b)}y`;
+                eq += ` = ${c}`;
+                return eq;
+            };
+            
+            const eq1 = formatEq(a1, b1, c1);
+            const eq2 = formatEq(a2, b2, c2);
+            
+            const latex = `\\begin{cases} ${eq1} \\\\ ${eq2} \\end{cases}`;
+            const answer = `x=${x}, y=${y}`;
+            
+            const steps = [
+                `Equation 1: $${eq1}$`,
+                `Equation 2: $${eq2}$`,
+                `Using substitution or elimination method:`,
+                `From the equations, solve for x and y`,
+                `Solution: $x = ${x}, y = ${y}$`,
+                `Verify: ${a1}(${x}) + ${b1}(${y}) = ${c1} ✓`,
+                `Verify: ${a2}(${x}) + ${b2}(${y}) = ${c2} ✓`
+            ];
+            
+            return {
+                latex: `\\text{Solve: } ${latex}`,
+                answer,
+                answerDisplay: answer,
+                x: x,
+                y: y,
+                steps,
+                hint: "Enter as: x=value, y=value (e.g., x=2, y=-3)",
+                type: "simultaneous"
+            };
+        },
+
+        arithmetic: () => {
+            const difficultyConfig = {
+                easy: { aRange: [1, 5], dRange: [2, 4], nRange: [5, 10], types: [1, 2] },
+                medium: { aRange: [1, 10], dRange: [-5, 5], nRange: [8, 15], types: [1, 2, 3] },
+                hard: { aRange: [-5, 10], dRange: [-8, 8], nRange: [10, 20], types: [1, 2, 3] }
+            };
+            
+            const config = difficultyConfig[state.difficulty];
+            const type = math.rndItem(config.types);
+            
+            // Generate AP parameters
+            const a = math.rnd(...config.aRange);
+            let d = math.rnd(...config.dRange);
+            if (d === 0) d = 2; // Avoid d=0
+            
+            let latex, answer, steps = [];
+            
+            if (type === 1) {
+                // Find sum of n terms
+                const n = math.rnd(...config.nRange);
+                const sum = (n / 2) * (2 * a + (n - 1) * d);
+                
+                latex = `\\text{Find } S_{${n}} \\text{ of AP: } ${a}, ${a + d}, ${a + 2*d}, ...`;
+                answer = sum;
+                steps = [
+                    `First term $a = ${a}$, Common difference $d = ${d}$`,
+                    `Sum formula: $S_n = \\frac{n}{2}[2a + (n-1)d]$`,
+                    `$S_{${n}} = \\frac{${n}}{2}[2(${a}) + (${n}-1)(${d})]$`,
+                    `$= \\frac{${n}}{2}[${2*a} + ${(n-1)*d}]$`,
+                    `$= \\frac{${n}}{2} \\times ${2*a + (n-1)*d}$`,
+                    `$= ${sum}$`
+                ];
+            } else if (type === 2) {
+                // Find nth term
+                const n = math.rnd(...config.nRange);
+                const term = a + (n - 1) * d;
+                
+                latex = `\\text{Find } T_{${n}} \\text{ of AP: } ${a}, ${a + d}, ${a + 2*d}, ...`;
+                answer = term;
+                steps = [
+                    `First term $a = ${a}$, Common difference $d = ${d}$`,
+                    `nth term formula: $T_n = a + (n-1)d$`,
+                    `$T_{${n}} = ${a} + (${n}-1)(${d})$`,
+                    `$= ${a} + ${(n-1)*d}$`,
+                    `$= ${term}$`
+                ];
+            } else {
+                // Find n given sum
+                const n = math.rnd(5, 12);
+                const term = a + (n - 1) * d;
+                
+                latex = `\\text{In AP with } a=${a}, d=${d}, \\text{ which term is } ${term}?`;
+                answer = n;
+                steps = [
+                    `Given: $a = ${a}, d = ${d}$, find $n$ where $T_n = ${term}$`,
+                    `Using: $T_n = a + (n-1)d$`,
+                    `$${term} = ${a} + (n-1)(${d})$`,
+                    `$${term - a} = (n-1)(${d})$`,
+                    `$n - 1 = ${(term - a) / d}$`,
+                    `$n = ${n}$`
+                ];
+            }
+            
+            return {
+                latex,
+                answer,
+                answerDisplay: answer.toString(),
+                steps,
+                hint: "Enter the numerical value",
+                type: "arithmetic"
+            };
+        }
+    };
+
+    // Core Functions
+    function generateQuestion() {
+        resetTimer();
+        els.solutionBox.style.display = 'none';
+        els.answerDisplay.style.display = 'none';
+        els.input.value = '';
+        els.checkBtn.disabled = false;
+        els.gameArea.classList.remove('hidden');
+        els.timer.style.display = 'block';
+        
+        state.currentTopic = els.topic.value;
+        const generator = generators[state.currentTopic];
+        
+        try {
+            state.currentQuestion = generator();
+            
+            // Format question with MathJax
+            els.question.innerHTML = `\\[${state.currentQuestion.latex}\\]`;
+            
+            // Update hint
+            els.hint.textContent = state.currentQuestion.hint;
+            
+            // Start timer
+            startTimer();
+            
+            // Update progress
+            updateProgress();
+            
+            // Render MathJax
+            if (window.MathJax && MathJax.typesetPromise) {
+                MathJax.typesetPromise([els.question]).catch(err => console.log('MathJax error:', err));
+            }
+            
+            // Focus input
+            setTimeout(() => els.input.focus(), 300);
+        } catch (e) {
+            console.error("Generator Error:", e);
+            els.question.innerHTML = "Error generating question. Please try again.";
+        }
+    }
+
+    function checkAnswer() {
+        if (!state.currentQuestion) return;
+        
+        clearInterval(state.timerInterval);
+        els.timer.style.display = 'none';
+        els.checkBtn.disabled = true;
+        
+        const userInput = els.input.value.trim().toLowerCase();
+        let isCorrect = false;
+        
+        // Calculate time taken
+        const timeTaken = Math.max(0, state.timeLimit - state.currentTime);
+        els.timeTaken.textContent = `Time: ${timeTaken}s`;
+        
+        // Validation based on question type
+        const q = state.currentQuestion;
+        
+        if (q.type === 'quadratic') {
+            // Parse user roots
+            const userRoots = userInput.split(',').map(s => parseFloat(s.trim())).filter(n => !isNaN(n)).sort((a, b) => a - b);
+            const correctRoots = q.roots;
+            
+            if (userRoots.length === 2) {
+                isCorrect = Math.abs(userRoots[0] - correctRoots[0]) < 0.01 &&
+                           Math.abs(userRoots[1] - correctRoots[1]) < 0.01;
+            }
+        } else if (q.type === 'simultaneous') {
+            // Parse x=value, y=value format
+            const xMatch = userInput.match(/x\s*=\s*([-\d.]+)/i);
+            const yMatch = userInput.match(/y\s*=\s*([-\d.]+)/i);
+            
+            if (xMatch && yMatch) {
+                const userX = parseFloat(xMatch[1]);
+                const userY = parseFloat(yMatch[1]);
+                isCorrect = Math.abs(userX - q.x) < 0.01 && Math.abs(userY - q.y) < 0.01;
+            }
+        } else if (q.type === 'surds') {
+            // Normalize surd input
+            const normalized = userInput
+                .replace(/√/g, 'sqrt')
+                .replace(/\s+/g, '')
+                .toLowerCase();
+            
+            // Try multiple formats
+            const expectedFormats = [
+                q.answerDisplay.toLowerCase().replace(/√/g, 'sqrt').replace(/\s+/g, ''),
+                `${q.coefficient}sqrt${q.remainder}`,
+                `${q.coefficient}sqrt(${q.remainder})`,
+                `sqrt${q.remainder}`,
+                `sqrt(${q.remainder})`
+            ];
+            
+            // Check if coefficient is 1
+            if (q.coefficient === 1) {
+                expectedFormats.push(`sqrt${q.remainder}`);
+                expectedFormats.push(`sqrt(${q.remainder})`);
+            }
+            
+            // Check if remainder is 1 (perfect square result)
+            if (q.remainder === 1) {
+                expectedFormats.push(q.coefficient.toString());
+            }
+            
+            isCorrect = expectedFormats.some(fmt => normalized === fmt.toLowerCase().replace(/\s+/g, ''));
+            
+            // Also check numerical if it's a perfect result
+            if (!isCorrect && q.remainder === 1) {
+                isCorrect = parseFloat(userInput) === q.coefficient;
+            }
+        } else {
+            // Numerical comparison
+            const userNum = parseFloat(userInput);
+            const correctNum = parseFloat(q.answer);
+            isCorrect = !isNaN(userNum) && Math.abs(userNum - correctNum) < 0.01;
+        }
+        
+        // Update stats
+        state.total++;
+        if (isCorrect) {
+            state.score += Math.max(1, Math.floor((state.timeLimit - timeTaken) / 10));
+            state.correct++;
+            state.streak++;
+            if (state.streak > state.maxStreak) {
+                state.maxStreak = state.streak;
+            }
+            showFeedback(true);
+        } else {
+            state.streak = 0;
+            showFeedback(false);
+        }
+        
+        updateStats();
+        showSolution(isCorrect);
+    }
+
+    function showFeedback(isCorrect) {
+        const toast = document.createElement('div');
+        toast.className = `feedback-toast ${isCorrect ? 'correct' : 'incorrect'}`;
+        toast.innerHTML = isCorrect ? 
+            '<i class="fas fa-check-circle"></i> Correct!' : 
+            '<i class="fas fa-times-circle"></i> Incorrect';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2000);
+    }
+
+    function showSolution(isCorrect) {
+        els.solutionBox.style.display = 'block';
+        els.solutionBox.className = 'solution-area ' + (isCorrect ? 'solution-correct' : 'solution-incorrect');
+        
+        if (isCorrect) {
+            els.status.innerHTML = '<i class="fas fa-check-circle" style="color: var(--success-color)"></i> Correct!';
+            els.answerDisplay.style.display = 'none';
+        } else {
+            els.status.innerHTML = '<i class="fas fa-times-circle" style="color: var(--error-color)"></i> Incorrect';
+            els.answerDisplay.style.display = 'block';
+            els.correctAnswerValue.textContent = state.currentQuestion.answerDisplay;
+        }
+        
+        // Display steps
+        if (state.currentQuestion.steps) {
+            const stepsHtml = state.currentQuestion.steps.map(step => 
+                `<div class="step">${step}</div>`
+            ).join('');
+            els.steps.innerHTML = stepsHtml;
+            
+            // Render MathJax in steps
+            if (window.MathJax && MathJax.typesetPromise) {
+                MathJax.typesetPromise([els.steps]).catch(err => console.log('MathJax error:', err));
+            }
+        }
+        
+        updateProgress();
+        
+        // Scroll to solution
+        els.solutionBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function updateStats() {
+        els.score.textContent = state.score;
+        els.mobileScore.textContent = state.score;
+        els.total.textContent = state.total;
+        els.streak.textContent = state.streak;
+        
+        const accuracy = state.total > 0 ? Math.round((state.correct / state.total) * 100) : 0;
+        els.accuracy.textContent = `${accuracy}%`;
+    }
+
+    function updateProgress() {
+        const progress = state.total > 0 ? Math.min(100, (state.total % 10) * 10) : 0;
+        els.progressFill.style.width = `${progress}%`;
+    }
+
+    function startTimer() {
+        state.currentTime = state.timeLimit;
+        els.timeLeft.textContent = state.currentTime;
+        els.timer.style.color = 'var(--text-primary)';
+        state.startTime = Date.now();
+        
+        state.timerInterval = setInterval(() => {
+            state.currentTime--;
+            els.timeLeft.textContent = state.currentTime;
+            
+            if (state.currentTime <= 10) {
+                els.timer.style.color = 'var(--error-color)';
+            } else if (state.currentTime <= 30) {
+                els.timer.style.color = 'var(--warning-color)';
+            }
+            
+            if (state.currentTime <= 0) {
+                clearInterval(state.timerInterval);
                 checkAnswer();
             }
-        });
+        }, 1000);
+    }
+
+    function resetTimer() {
+        clearInterval(state.timerInterval);
+        els.timer.style.color = 'var(--text-primary)';
+        state.currentTime = state.timeLimit;
+    }
+
+    function setDifficulty(level) {
+        state.difficulty = level;
         
-        elements.answerInput.addEventListener('focus', function() {
-            this.style.borderColor = 'var(--primary)';
-            this.style.boxShadow = '0 0 0 3px rgba(58, 134, 255, 0.2)';
-        });
-        
-        elements.answerInput.addEventListener('blur', function() {
-            if (!this.value) {
-                this.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                this.style.boxShadow = 'none';
+        document.querySelectorAll('.difficulty-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.level === level) {
+                btn.classList.add('active');
             }
         });
-
-        // ========== INITIALIZATION ==========
-        function init() {
-            updateStatistics();
-            setDifficulty('easy');
-            
-            // Generate first question
-            setTimeout(generateQuestion, 500);
-            
-            // Add keyboard shortcuts
-            document.addEventListener('keydown', function(event) {
-                if (event.key === 'Escape') {
-                    elements.answerInput.value = '';
-                } else if (event.ctrlKey && event.key === 'n') {
-                    event.preventDefault();
-                    generateQuestion();
-                }
-            });
-            
-            console.log('Quant Trainer initialized successfully!');
+        
+        switch(level) {
+            case 'easy': state.timeLimit = 90; break;
+            case 'medium': state.timeLimit = 60; break;
+            case 'hard': state.timeLimit = 45; break;
         }
+    }
 
-        // Initialize on load
-        window.addEventListener('load', init);
-    </script>
+    function showHint() {
+        if (!state.currentQuestion) return;
+        state.hintsUsed++;
+        
+        let hintMsg = state.currentQuestion.hint;
+        
+        // Add topic-specific hints
+        if (state.currentTopic === 'indices') {
+            hintMsg += '\n\nRemember:\n• aᵐ × aⁿ = aᵐ⁺ⁿ\n• aᵐ ÷ aⁿ = aᵐ⁻ⁿ\n• (aᵐ)ⁿ = aᵐˣⁿ';
+        } else if (state.currentTopic === 'surds') {
+            hintMsg += '\n\nRemember:\n• √(ab) = √a × √b\n• √a × √a = a\n• Rationalize by multiplying by √n/√n';
+        } else if (state.currentTopic === 'logs') {
+            hintMsg += '\n\nRemember:\n• log_b(bⁿ) = n\n• log(a) + log(b) = log(ab)\n• log_b(x) = n means bⁿ = x';
+        }
+        
+        alert(hintMsg);
+    }
+
+    function practiceSimilar() {
+        generateQuestion();
+    }
+
+    // Event Listeners
+    els.topic.addEventListener('change', generateQuestion);
+    
+    els.input.addEventListener("keypress", function(event) {
+        if (event.key === "Enter" && !els.checkBtn.disabled) {
+            checkAnswer();
+        }
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        updateStats();
+        setDifficulty('easy');
+    });
+
+    // Touch support
+    document.addEventListener('touchstart', function() {}, {passive: true});
+</script>
+
 </body>
 </html>
