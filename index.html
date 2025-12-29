@@ -3,13 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Quant Aptitude Trainer</title>
+    <title>Quant Aptitude Trainer - MCA Sem 3</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --module1-color: #3b82f6;
+            --module2-color: #10b981;
+            --module3-color: #f59e0b;
+            --module4-color: #ef4444;
+            --module5-color: #8b5cf6;
             --bg-color: #0f172a;
             --card-bg: #1e293b;
             --card-hover: #334155;
@@ -45,7 +61,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -53,7 +69,7 @@
         header {
             text-align: center;
             margin-bottom: 30px;
-            padding: 20px;
+            padding: 25px;
             background: var(--card-bg);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-md);
@@ -72,8 +88,8 @@
         }
 
         h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
+            font-size: 2rem;
+            margin-bottom: 8px;
             background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -82,19 +98,30 @@
 
         .subtitle {
             color: var(--text-secondary);
-            font-size: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .exam-badge {
+            display: inline-block;
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning-color);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            font-weight: 600;
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin-bottom: 25px;
         }
 
         .stat-card {
             background: var(--card-bg);
-            padding: 20px;
+            padding: 15px;
             border-radius: var(--border-radius);
             text-align: center;
             transition: var(--transition);
@@ -102,18 +129,18 @@
         }
 
         .stat-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             box-shadow: var(--shadow-lg);
         }
 
         .stat-value {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
         .stat-label {
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -123,7 +150,7 @@
             background: var(--card-bg);
             border-radius: var(--border-radius);
             padding: 25px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             box-shadow: var(--shadow-md);
             transition: var(--transition);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -140,47 +167,177 @@
             gap: 10px;
             margin-bottom: 20px;
             color: var(--accent-color);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
         }
 
-        .controls {
+        /* Module Selector Styles */
+        .module-selector {
             display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 15px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
             margin-bottom: 20px;
         }
 
-        @media (max-width: 640px) {
-            .controls {
-                grid-template-columns: 1fr;
+        @media (max-width: 768px) {
+            .module-selector {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
+        @media (max-width: 480px) {
+            .module-selector {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .module-btn {
+            padding: 12px 8px;
+            border-radius: var(--border-radius-sm);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-align: center;
+            background: rgba(30, 41, 59, 0.8);
+            color: var(--text-secondary);
+        }
+
+        .module-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .module-btn.active {
+            color: white;
+        }
+
+        .module-btn[data-module="1"] { border-color: var(--module1-color); }
+        .module-btn[data-module="1"].active { background: var(--module1-color); }
+        .module-btn[data-module="1"]:hover { border-color: var(--module1-color); }
+
+        .module-btn[data-module="2"] { border-color: var(--module2-color); }
+        .module-btn[data-module="2"].active { background: var(--module2-color); }
+        .module-btn[data-module="2"]:hover { border-color: var(--module2-color); }
+
+        .module-btn[data-module="3"] { border-color: var(--module3-color); }
+        .module-btn[data-module="3"].active { background: var(--module3-color); }
+        .module-btn[data-module="3"]:hover { border-color: var(--module3-color); }
+
+        .module-btn[data-module="4"] { border-color: var(--module4-color); }
+        .module-btn[data-module="4"].active { background: var(--module4-color); }
+        .module-btn[data-module="4"]:hover { border-color: var(--module4-color); }
+
+        .module-btn[data-module="5"] { border-color: var(--module5-color); }
+        .module-btn[data-module="5"].active { background: var(--module5-color); }
+        .module-btn[data-module="5"]:hover { border-color: var(--module5-color); }
+
+        .module-title {
+            font-size: 0.7rem;
+            display: block;
+            margin-top: 4px;
+            opacity: 0.8;
+        }
+
+        /* Topic Selector */
+        .topic-selector {
+            margin-bottom: 20px;
+        }
+
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+        }
+
+        .topic-btn {
+            padding: 12px 15px;
+            border-radius: var(--border-radius-sm);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(30, 41, 59, 0.6);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .topic-btn:hover {
+            border-color: var(--accent-color);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .topic-btn.active {
+            border-color: var(--accent-color);
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--text-primary);
+        }
+
+        .topic-btn i {
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .topic-label {
+            padding: 8px 15px;
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Difficulty and Controls */
+        .controls-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .difficulty-selector {
+            display: flex;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .difficulty-btn {
+            padding: 10px 16px;
+            border-radius: 50px;
+            background: rgba(30, 41, 59, 0.8);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .difficulty-btn.active {
+            background: var(--primary-gradient);
+            border-color: var(--accent-color);
+            color: white;
+        }
+
+        .difficulty-btn:hover:not(.active) {
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+
         select, button, input {
-            padding: 14px 18px;
+            padding: 12px 16px;
             border-radius: var(--border-radius-sm);
             border: 2px solid transparent;
             background: rgba(30, 41, 59, 0.8);
             color: var(--text-primary);
             font-size: 1rem;
             transition: var(--transition);
-        }
-
-        select {
-            background: rgba(30, 41, 59, 0.8);
-            cursor: pointer;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            background-size: 20px;
-            padding-right: 50px;
-            appearance: none;
-        }
-
-        select:focus, input:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
 
         button {
@@ -198,6 +355,7 @@
             background: var(--primary-gradient);
             color: white;
             border: none;
+            padding: 14px 24px;
         }
 
         .btn-primary:hover {
@@ -226,14 +384,14 @@
         .question-display {
             background: rgba(30, 41, 59, 0.6);
             border-radius: var(--border-radius);
-            padding: 40px 30px;
-            margin: 30px 0;
+            padding: 40px 25px;
+            margin: 20px 0;
             text-align: center;
-            min-height: 200px;
+            min-height: 180px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 1.8rem;
             border: 2px dashed rgba(59, 130, 246, 0.2);
             transition: var(--transition);
         }
@@ -244,12 +402,12 @@
 
         .input-container {
             position: relative;
-            margin: 25px 0;
+            margin: 20px 0;
         }
 
         .input-container input {
             width: 100%;
-            padding: 18px 20px;
+            padding: 16px 20px;
             font-size: 1.2rem;
             text-align: center;
             background: rgba(30, 41, 59, 0.8);
@@ -257,12 +415,13 @@
         }
 
         .input-container input:focus {
+            outline: none;
             border-color: var(--accent-color);
             background: rgba(30, 41, 59, 1);
         }
 
         .hint {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-secondary);
             margin-top: 8px;
             text-align: center;
@@ -274,30 +433,19 @@
             background: var(--card-bg);
             border-radius: var(--border-radius);
             padding: 25px;
-            margin-top: 25px;
+            margin-top: 20px;
             display: none;
             border-left: 5px solid var(--accent-color);
             animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .solution-correct {
-            border-left-color: var(--success-color);
-        }
-
-        .solution-incorrect {
-            border-left-color: var(--error-color);
-        }
+        .solution-correct { border-left-color: var(--success-color); }
+        .solution-incorrect { border-left-color: var(--error-color); }
 
         .solution-header {
             display: flex;
@@ -309,7 +457,7 @@
         }
 
         .solution-title {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -320,15 +468,27 @@
             background: rgba(30, 41, 59, 0.6);
             border-radius: var(--border-radius-sm);
             padding: 20px;
-            margin-top: 20px;
+            margin-top: 15px;
+        }
+
+        .steps-header {
+            color: var(--warning-color);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(245, 158, 11, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .step {
             margin-bottom: 12px;
             padding-bottom: 12px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            line-height: 1.8;
         }
 
         .step:last-child {
@@ -337,48 +497,22 @@
             padding-bottom: 0;
         }
 
-        .difficulty-selector {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .difficulty-btn {
-            padding: 10px 20px;
-            border-radius: 50px;
-            background: rgba(30, 41, 59, 0.8);
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 500;
-        }
-
-        .difficulty-btn.active {
-            background: var(--primary-gradient);
-            border-color: var(--accent-color);
-        }
-
-        .difficulty-btn:hover:not(.active) {
-            border-color: rgba(59, 130, 246, 0.5);
-        }
-
         .timer {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: bold;
             text-align: center;
-            padding: 15px;
+            padding: 12px;
             background: rgba(30, 41, 59, 0.8);
             border-radius: var(--border-radius);
-            margin: 20px 0;
+            margin: 15px 0;
             display: none;
         }
 
         .progress-bar {
-            height: 8px;
+            height: 6px;
             background: rgba(30, 41, 59, 0.8);
-            border-radius: 4px;
-            margin: 25px 0;
+            border-radius: 3px;
+            margin: 20px 0;
             overflow: hidden;
         }
 
@@ -389,12 +523,10 @@
             transition: width 0.5s ease;
         }
 
-        .hidden {
-            display: none !important;
-        }
+        .hidden { display: none !important; }
 
         .correct-answer {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: var(--success-color);
             margin: 15px 0;
@@ -402,93 +534,6 @@
             background: rgba(16, 185, 129, 0.1);
             border-radius: var(--border-radius-sm);
             border-left: 4px solid var(--success-color);
-        }
-
-        .mobile-menu {
-            display: none;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
-            .container {
-                padding: 10px;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .question-display {
-                padding: 25px 15px;
-                font-size: 1.5rem;
-                min-height: 150px;
-            }
-            
-            .stat-card {
-                padding: 15px;
-            }
-            
-            .stat-value {
-                font-size: 1.5rem;
-            }
-            
-            .mobile-menu {
-                display: flex;
-            }
-            
-            .desktop-only {
-                display: none;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .difficulty-selector {
-                justify-content: center;
-            }
-            
-            .card {
-                padding: 20px 15px;
-            }
-        }
-
-        /* MathJax styling */
-        .mjx-math {
-            font-size: 1.2em !important;
-        }
-
-        .math-container {
-            padding: 15px;
-            background: rgba(30, 41, 59, 0.5);
-            border-radius: var(--border-radius-sm);
-            margin: 10px 0;
-        }
-
-        /* Loading animation */
-        .loader {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(59, 130, 246, 0.2);
-            border-radius: 50%;
-            border-top-color: var(--accent-color);
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
         }
 
         .feedback-toast {
@@ -503,19 +548,44 @@
             animation: fadeInOut 2s ease;
         }
 
-        .feedback-toast.correct {
-            background: var(--success-color);
-        }
-
-        .feedback-toast.incorrect {
-            background: var(--error-color);
-        }
+        .feedback-toast.correct { background: var(--success-color); }
+        .feedback-toast.incorrect { background: var(--error-color); }
 
         @keyframes fadeInOut {
             0% { opacity: 0; transform: translateY(-20px); }
             20% { opacity: 1; transform: translateY(0); }
             80% { opacity: 1; transform: translateY(0); }
             100% { opacity: 0; transform: translateY(-20px); }
+        }
+
+        .coming-soon {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        .coming-soon i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .coming-soon h3 {
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { padding: 10px; }
+            h1 { font-size: 1.6rem; }
+            .question-display {
+                padding: 25px 15px;
+                font-size: 1.4rem;
+                min-height: 140px;
+            }
+            .controls-row { flex-direction: column; }
+            .difficulty-selector { width: 100%; justify-content: center; }
         }
     </style>
 </head>
@@ -524,18 +594,9 @@
 <div class="container">
     <header>
         <h1><i class="fas fa-brain"></i> Quant Aptitude Trainer</h1>
-        <p class="subtitle">Master quantitative aptitude with practice questions</p>
+        <p class="subtitle">MCA Semester 3 - Quantitative Aptitude Practice</p>
+        <span class="exam-badge"><i class="fas fa-calendar-alt"></i> Exam: Jan 23, 2026</span>
     </header>
-
-    <div class="mobile-menu">
-        <div>
-            <div class="stat-value" id="mobileScore">0</div>
-            <div class="stat-label">Score</div>
-        </div>
-        <button class="btn-primary" onclick="generateQuestion()">
-            <i class="fas fa-redo"></i> New
-        </button>
-    </div>
 
     <div class="stats-grid">
         <div class="stat-card">
@@ -556,35 +617,60 @@
         </div>
     </div>
 
+    <!-- Module Selector -->
     <div class="card">
         <div class="card-title">
-            <i class="fas fa-cog"></i> Settings
+            <i class="fas fa-book"></i> Select Module
         </div>
         
-        <div class="difficulty-selector">
-            <div class="difficulty-btn active" data-level="easy" onclick="setDifficulty('easy')">
-                <i class="fas fa-star"></i> Easy
+        <div class="module-selector">
+            <button class="module-btn active" data-module="1" onclick="selectModule(1)">
+                <i class="fas fa-calculator"></i>
+                <span class="module-title">Algebra</span>
+            </button>
+            <button class="module-btn" data-module="2" onclick="selectModule(2)">
+                <i class="fas fa-list-ol"></i>
+                <span class="module-title">Data Arrange</span>
+            </button>
+            <button class="module-btn" data-module="3" onclick="selectModule(3)">
+                <i class="fas fa-chart-line"></i>
+                <span class="module-title">Calculus</span>
+            </button>
+            <button class="module-btn" data-module="4" onclick="selectModule(4)">
+                <i class="fas fa-chart-bar"></i>
+                <span class="module-title">Data Analysis</span>
+            </button>
+            <button class="module-btn" data-module="5" onclick="selectModule(5)">
+                <i class="fas fa-project-diagram"></i>
+                <span class="module-title">Forecasting</span>
+            </button>
+        </div>
+
+        <!-- Topic Selector -->
+        <div class="topic-selector">
+            <div class="topic-label">
+                <i class="fas fa-tags"></i> <span id="moduleTitle">Module 1: Algebra</span> - Select Topic
             </div>
-            <div class="difficulty-btn" data-level="medium" onclick="setDifficulty('medium')">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i> Medium
-            </div>
-            <div class="difficulty-btn" data-level="hard" onclick="setDifficulty('hard')">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> Hard
+            <div class="topic-grid" id="topicGrid">
+                <!-- Topics will be populated by JavaScript -->
             </div>
         </div>
 
-        <div class="controls">
-            <select id="topicSelect">
-                <option value="indices">📈 Indices & Exponents</option>
-                <option value="surds">√ Surds & Radicals</option>
-                <option value="logs">📊 Logarithms</option>
-                <option value="linear">📐 Linear Equations</option>
-                <option value="quadratic">🎯 Quadratic Equations</option>
-                <option value="simultaneous">⚖️ Simultaneous Equations</option>
-                <option value="arithmetic">🧮 Arithmetic Progression</option>
-            </select>
+        <!-- Difficulty & Start -->
+        <div class="controls-row">
+            <div class="difficulty-selector">
+                <button class="difficulty-btn active" data-level="easy" onclick="setDifficulty('easy')">
+                    <i class="fas fa-star"></i> Easy
+                </button>
+                <button class="difficulty-btn" data-level="medium" onclick="setDifficulty('medium')">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i> Medium
+                </button>
+                <button class="difficulty-btn" data-level="hard" onclick="setDifficulty('hard')">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> Hard
+                </button>
+            </div>
             <button class="btn-primary" onclick="generateQuestion()" id="genBtn">
-                <i class="fas fa-redo"></i> New Question
+                <i class="fas fa-play"></i> Start Practice
             </button>
         </div>
 
@@ -601,9 +687,10 @@
         <div class="card">
             <div class="card-title">
                 <i class="fas fa-question-circle"></i> Question
+                <span id="topicBadge" style="margin-left: auto; font-size: 0.8rem; background: rgba(59,130,246,0.2); padding: 4px 10px; border-radius: 12px;"></span>
             </div>
             <div class="question-display" id="questionText">
-                Click "New Question" to start
+                Click "Start Practice" to begin
             </div>
         </div>
 
@@ -624,10 +711,19 @@
         </div>
     </div>
 
+    <!-- Coming Soon Area -->
+    <div id="comingSoon" class="card hidden">
+        <div class="coming-soon">
+            <i class="fas fa-tools"></i>
+            <h3 id="comingSoonTitle">Coming Soon!</h3>
+            <p id="comingSoonText">This topic is under development. Check back soon!</p>
+        </div>
+    </div>
+
     <div class="solution-area" id="solutionBox">
         <div class="solution-header">
             <div class="solution-title" id="solutionStatus">
-                <i class="fas fa-solution"></i> Solution
+                <i class="fas fa-check-circle"></i> Solution
             </div>
             <div id="timeTaken">Time: 0s</div>
         </div>
@@ -636,29 +732,86 @@
             Correct Answer: <span id="correctAnswerValue"></span>
         </div>
         
-        <div id="steps" class="steps-container"></div>
+        <div id="steps" class="steps-container">
+            <div class="steps-header"><i class="fas fa-lightbulb"></i> Solution Steps</div>
+            <div id="stepsContent"></div>
+        </div>
         
         <div style="display: flex; gap: 10px; margin-top: 20px;">
             <button class="btn-primary" onclick="generateQuestion()" style="flex: 1;">
                 <i class="fas fa-forward"></i> Next Question
             </button>
-            <button class="btn-warning" onclick="practiceSimilar()" style="flex: 1;">
+            <button class="btn-warning" onclick="generateQuestion()" style="flex: 1;">
                 <i class="fas fa-redo"></i> Practice Similar
             </button>
         </div>
     </div>
 
-    <div class="card" style="text-align: center; margin-top: 30px;">
-        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+    <div class="card" style="text-align: center; margin-top: 20px;">
+        <p style="color: var(--text-secondary); font-size: 0.85rem;">
             <i class="fas fa-info-circle"></i> 
-            Press Enter to submit answer • Use proper mathematical notation • Practice daily for best results
+            Press Enter to submit • Practice daily for best results • All 5 modules available
         </p>
     </div>
 </div>
 
 <script>
-    // Enhanced State Management
+    // ==================== DATA STRUCTURE ====================
+    const syllabusData = {
+        1: {
+            name: "Algebra",
+            icon: "calculator",
+            topics: {
+                indices: { name: "Indices & Exponents", icon: "superscript", available: true },
+                surds: { name: "Surds & Radicals", icon: "square-root-alt", available: true },
+                logs: { name: "Logarithms", icon: "chart-line", available: true },
+                linear: { name: "Linear Equations", icon: "equals", available: true },
+                quadratic: { name: "Quadratic Equations", icon: "wave-square", available: true },
+                simultaneous: { name: "Simultaneous Equations", icon: "grip-lines", available: true },
+                inequalities: { name: "Inequalities", icon: "not-equal", available: true }
+            }
+        },
+        2: {
+            name: "Data Arrangement",
+            icon: "list-ol",
+            topics: {
+                ap: { name: "Arithmetic Progression", icon: "sort-numeric-down", available: true },
+                gp: { name: "Geometric Progression", icon: "chart-area", available: true },
+                permutation: { name: "Permutation & Combination", icon: "random", available: true }
+            }
+        },
+        3: {
+            name: "Differential Calculus",
+            icon: "chart-line",
+            topics: {
+                sets: { name: "Sets & Subsets", icon: "object-group", available: true },
+                relations: { name: "Relations & Functions", icon: "project-diagram", available: true },
+                limits: { name: "Limits & Continuity", icon: "infinity", available: true }
+            }
+        },
+        4: {
+            name: "Data Analysis",
+            icon: "chart-bar",
+            topics: {
+                frequency: { name: "Frequency Distribution", icon: "table", available: true },
+                graphs: { name: "Histogram & Graphs", icon: "chart-bar", available: true },
+                central: { name: "Central Tendency", icon: "bullseye", available: true },
+                dispersion: { name: "Dispersion & Variance", icon: "expand-arrows-alt", available: true }
+            }
+        },
+        5: {
+            name: "Forecasting Techniques",
+            icon: "project-diagram",
+            topics: {
+                correlation: { name: "Correlation", icon: "link", available: true },
+                regression: { name: "Linear Regression", icon: "chart-line", available: true }
+            }
+        }
+    };
+
+    // ==================== STATE ====================
     const state = {
+        currentModule: 1,
         currentTopic: 'indices',
         currentQuestion: null,
         difficulty: 'easy',
@@ -670,46 +823,42 @@
         startTime: null,
         timerInterval: null,
         timeLimit: 90,
-        currentTime: 90,
-        hintsUsed: 0
+        currentTime: 90
     };
 
-    // DOM Elements
+    // ==================== DOM ELEMENTS ====================
     const els = {
-        topic: document.getElementById('topicSelect'),
+        topicGrid: document.getElementById('topicGrid'),
+        moduleTitle: document.getElementById('moduleTitle'),
         question: document.getElementById('questionText'),
         input: document.getElementById('userAnswer'),
         hint: document.getElementById('inputHint'),
         gameArea: document.getElementById('gameArea'),
+        comingSoon: document.getElementById('comingSoon'),
         solutionBox: document.getElementById('solutionBox'),
         status: document.getElementById('solutionStatus'),
-        steps: document.getElementById('steps'),
         score: document.getElementById('score'),
-        mobileScore: document.getElementById('mobileScore'),
         total: document.getElementById('total'),
         streak: document.getElementById('streak'),
         accuracy: document.getElementById('accuracy'),
         checkBtn: document.getElementById('checkBtn'),
-        genBtn: document.getElementById('genBtn'),
         timer: document.getElementById('timer'),
         timeLeft: document.getElementById('timeLeft'),
         progressFill: document.getElementById('progressFill'),
         answerDisplay: document.getElementById('answerDisplay'),
         correctAnswerValue: document.getElementById('correctAnswerValue'),
-        timeTaken: document.getElementById('timeTaken')
+        timeTaken: document.getElementById('timeTaken'),
+        topicBadge: document.getElementById('topicBadge')
     };
 
-    // Math Utilities
+    // ==================== MATH UTILITIES ====================
     const math = {
         rnd: (min, max) => Math.floor(Math.random() * (max - min + 1)) + min,
         rndItem: (arr) => arr[Math.floor(Math.random() * arr.length)],
         gcd: (a, b) => b === 0 ? Math.abs(a) : math.gcd(b, a % b),
-        randomPositiveCoefficient: (min = 1, max = 10) => math.rnd(min, max),
-        randomCoefficient: (min = 1, max = 10) => {
-            const val = math.rnd(min, max);
-            return Math.random() > 0.5 ? val : -val;
-        },
-        // Find largest perfect square factor
+        factorial: (n) => n <= 1 ? 1 : n * math.factorial(n - 1),
+        nPr: (n, r) => math.factorial(n) / math.factorial(n - r),
+        nCr: (n, r) => math.factorial(n) / (math.factorial(r) * math.factorial(n - r)),
         largestPerfectSquareFactor: (n) => {
             let largest = 1;
             for (let i = 2; i * i <= n; i++) {
@@ -719,592 +868,867 @@
                 }
             }
             return { perfectSquareRoot: largest, remainder: n };
-        },
-        // Format coefficient for display
-        formatCoeff: (coeff, isFirst = false) => {
-            if (coeff === 0) return '';
-            if (coeff === 1) return isFirst ? '' : '+ ';
-            if (coeff === -1) return isFirst ? '-' : '- ';
-            if (coeff > 0) return isFirst ? `${coeff}` : `+ ${coeff}`;
-            return isFirst ? `${coeff}` : `- ${Math.abs(coeff)}`;
-        },
-        // Format term for equations
-        formatTerm: (coeff, variable, isFirst = false) => {
-            if (coeff === 0) return '';
-            const sign = coeff >= 0 ? (isFirst ? '' : ' + ') : (isFirst ? '-' : ' - ');
-            const absCoeff = Math.abs(coeff);
-            const coeffStr = absCoeff === 1 ? '' : absCoeff;
-            return `${sign}${coeffStr}${variable}`;
         }
     };
 
-    // Enhanced Generators - All Fixed
+    // ==================== QUESTION GENERATORS ====================
     const generators = {
+        // MODULE 1: ALGEBRA
         indices: () => {
-            const difficultyConfig = {
+            const config = {
                 easy: { baseRange: [2, 5], expRange: [1, 3], types: [1, 2] },
                 medium: { baseRange: [2, 7], expRange: [1, 5], types: [1, 2, 3] },
                 hard: { baseRange: [2, 9], expRange: [1, 6], types: [1, 2, 3, 4] }
-            };
+            }[state.difficulty];
             
-            const config = difficultyConfig[state.difficulty];
             const base = math.rnd(...config.baseRange);
             const type = math.rndItem(config.types);
             let latex, answer, steps = [];
             
             if (type === 1) {
-                // Multiplication and division: a^m × a^n ÷ a^p
                 const e1 = math.rnd(...config.expRange);
                 const e2 = math.rnd(...config.expRange);
                 const e3 = math.rnd(1, Math.min(e1 + e2 - 1, config.expRange[1]));
-                const resultExp = e1 + e2 - e3;
-                
                 latex = `${base}^{${e1}} \\times ${base}^{${e2}} \\div ${base}^{${e3}}`;
-                answer = Math.pow(base, resultExp);
+                answer = Math.pow(base, e1 + e2 - e3);
                 steps = [
                     `Apply multiplication rule: $a^m \\times a^n = a^{m+n}$`,
-                    `$${base}^{${e1}} \\times ${base}^{${e2}} = ${base}^{${e1}+${e2}} = ${base}^{${e1+e2}}$`,
+                    `$${base}^{${e1}} \\times ${base}^{${e2}} = ${base}^{${e1+e2}}$`,
                     `Apply division rule: $a^m \\div a^n = a^{m-n}$`,
-                    `$${base}^{${e1+e2}} \\div ${base}^{${e3}} = ${base}^{${e1+e2}-${e3}} = ${base}^{${resultExp}}$`,
-                    `Calculate: $${base}^{${resultExp}} = ${answer}$`
+                    `$${base}^{${e1+e2}} \\div ${base}^{${e3}} = ${base}^{${e1+e2-e3}}$`,
+                    `Calculate: $${base}^{${e1+e2-e3}} = ${answer}$`
                 ];
             } else if (type === 2) {
-                // Power of power: (a^m)^n
                 const e1 = math.rnd(1, 3);
                 const e2 = math.rnd(2, 3);
-                const resultExp = e1 * e2;
-                
                 latex = `(${base}^{${e1}})^{${e2}}`;
-                answer = Math.pow(base, resultExp);
+                answer = Math.pow(base, e1 * e2);
                 steps = [
                     `Apply power rule: $(a^m)^n = a^{m \\times n}$`,
-                    `$(${base}^{${e1}})^{${e2}} = ${base}^{${e1} \\times ${e2}}$`,
-                    `$= ${base}^{${resultExp}}$`,
-                    `Calculate: $${base}^{${resultExp}} = ${answer}$`
+                    `$(${base}^{${e1}})^{${e2}} = ${base}^{${e1} \\times ${e2}} = ${base}^{${e1*e2}}$`,
+                    `Calculate: $${base}^{${e1*e2}} = ${answer}$`
                 ];
             } else if (type === 3) {
-                // nth root as fractional exponent
                 const n = math.rnd(2, 3);
                 const e1 = math.rnd(1, 3);
                 const innerExp = e1 * n;
-                
                 latex = `\\sqrt[${n}]{${base}^{${innerExp}}}`;
                 answer = Math.pow(base, e1);
                 steps = [
                     `Convert root to fractional exponent: $\\sqrt[n]{a^m} = a^{m/n}$`,
-                    `$\\sqrt[${n}]{${base}^{${innerExp}}} = ${base}^{${innerExp}/${n}}$`,
-                    `$= ${base}^{${e1}}$`,
+                    `$\\sqrt[${n}]{${base}^{${innerExp}}} = ${base}^{${innerExp}/${n}} = ${base}^{${e1}}$`,
                     `Calculate: $${base}^{${e1}} = ${answer}$`
                 ];
             } else {
-                // Different bases multiplication
                 const base2 = math.rnd(2, 5);
                 const e1 = math.rnd(2, 3);
                 const e2 = math.rnd(2, 3);
-                const val1 = Math.pow(base, e1);
-                const val2 = Math.pow(base2, e2);
-                
                 latex = `${base}^{${e1}} \\times ${base2}^{${e2}}`;
-                answer = val1 * val2;
+                answer = Math.pow(base, e1) * Math.pow(base2, e2);
                 steps = [
-                    `Calculate each term separately:`,
-                    `$${base}^{${e1}} = ${val1}$`,
-                    `$${base2}^{${e2}} = ${val2}$`,
-                    `Multiply: $${val1} \\times ${val2} = ${answer}$`
+                    `Calculate each term:`,
+                    `$${base}^{${e1}} = ${Math.pow(base, e1)}$`,
+                    `$${base2}^{${e2}} = ${Math.pow(base2, e2)}$`,
+                    `Multiply: $${Math.pow(base, e1)} \\times ${Math.pow(base2, e2)} = ${answer}$`
                 ];
             }
             
-            return {
-                latex,
-                answer: answer,
-                answerDisplay: answer.toString(),
-                steps,
-                hint: "Enter the numerical value",
-                type: "indices"
-            };
+            return { latex, answer, answerDisplay: answer.toString(), steps, hint: "Enter the numerical value", type: "indices" };
         },
 
         surds: () => {
-            const difficultyConfig = {
-                easy: { 
-                    simplifyNums: [8, 12, 18, 20, 27, 32, 45, 48, 50],
-                    types: [1]
-                },
-                medium: { 
-                    simplifyNums: [8, 12, 18, 20, 27, 32, 45, 48, 50, 72, 75, 98],
-                    types: [1, 2]
-                },
-                hard: { 
-                    simplifyNums: [32, 45, 48, 50, 72, 75, 98, 108, 125, 128, 147, 162],
-                    types: [1, 2, 3]
-                }
-            };
+            const config = {
+                easy: { nums: [8, 12, 18, 20, 27, 32, 45, 48, 50], types: [1] },
+                medium: { nums: [8, 12, 18, 20, 27, 32, 45, 48, 50, 72, 75, 98], types: [1, 2] },
+                hard: { nums: [32, 45, 48, 50, 72, 75, 98, 108, 125, 128], types: [1, 2, 3] }
+            }[state.difficulty];
             
-            const config = difficultyConfig[state.difficulty];
             const type = math.rndItem(config.types);
-            let latex, answer, answerDisplay, steps = [];
+            let latex, answer, answerDisplay, steps = [], coefficient, remainder;
             
             if (type === 1) {
-                // Simplify √n
-                const num = math.rndItem(config.simplifyNums);
-                const { perfectSquareRoot, remainder } = math.largestPerfectSquareFactor(num);
+                const num = math.rndItem(config.nums);
+                const result = math.largestPerfectSquareFactor(num);
+                coefficient = result.perfectSquareRoot;
+                remainder = result.remainder;
                 
                 latex = `\\text{Simplify: } \\sqrt{${num}}`;
+                answerDisplay = coefficient === 1 ? `√${remainder}` : `${coefficient}√${remainder}`;
+                answer = answerDisplay;
                 
-                if (perfectSquareRoot === 1) {
-                    answer = Math.sqrt(num);
-                    answerDisplay = `√${num}`;
-                    steps = [
-                        `$\\sqrt{${num}}$ has no perfect square factors`,
-                        `It is already in simplest form: $\\sqrt{${num}}$`
-                    ];
+                if (coefficient === 1) {
+                    steps = [`$\\sqrt{${num}}$ is already in simplest form`];
                 } else {
-                    const perfectSquare = perfectSquareRoot * perfectSquareRoot;
-                    answer = perfectSquareRoot; // Coefficient
-                    answerDisplay = perfectSquareRoot === 1 ? `√${remainder}` : `${perfectSquareRoot}√${remainder}`;
-                    
+                    const ps = coefficient * coefficient;
                     steps = [
                         `Find perfect square factors of ${num}:`,
-                        `$${num} = ${perfectSquare} \\times ${remainder}$`,
-                        `$\\sqrt{${num}} = \\sqrt{${perfectSquare} \\times ${remainder}}$`,
-                        `$= \\sqrt{${perfectSquare}} \\times \\sqrt{${remainder}}$`,
-                        `$= ${perfectSquareRoot}\\sqrt{${remainder}}$`
+                        `$${num} = ${ps} \\times ${remainder}$`,
+                        `$\\sqrt{${num}} = \\sqrt{${ps}} \\times \\sqrt{${remainder}}$`,
+                        `$= ${coefficient}\\sqrt{${remainder}}$`
                     ];
                 }
-                
-                return {
-                    latex,
-                    answer: answerDisplay,
-                    answerDisplay,
-                    remainder: remainder,
-                    coefficient: perfectSquareRoot,
-                    steps,
-                    hint: `Enter as coefficient√remainder (e.g., 3√2) or just √n`,
-                    type: "surds",
-                    subtype: "simplify"
-                };
             } else if (type === 2) {
-                // Rationalize denominator: n/√d
                 const d = math.rndItem([2, 3, 5, 6, 7]);
-                const multiplier = math.rnd(1, 4);
-                const n = d * multiplier;
+                const mult = math.rnd(1, 4);
+                const n = d * mult;
                 
                 latex = `\\text{Rationalize: } \\frac{${n}}{\\sqrt{${d}}}`;
-                answerDisplay = multiplier === 1 ? `√${d}` : `${multiplier}√${d}`;
-                answer = multiplier;
+                coefficient = mult;
+                remainder = d;
+                answerDisplay = mult === 1 ? `√${d}` : `${mult}√${d}`;
+                answer = answerDisplay;
                 
                 steps = [
-                    `Multiply numerator and denominator by $\\sqrt{${d}}$:`,
-                    `$\\frac{${n}}{\\sqrt{${d}}} \\times \\frac{\\sqrt{${d}}}{\\sqrt{${d}}}$`,
-                    `$= \\frac{${n}\\sqrt{${d}}}{${d}}$`,
-                    `$= ${multiplier === 1 ? '' : multiplier}\\sqrt{${d}}$`
+                    `Multiply by $\\frac{\\sqrt{${d}}}{\\sqrt{${d}}}$:`,
+                    `$\\frac{${n}}{\\sqrt{${d}}} \\times \\frac{\\sqrt{${d}}}{\\sqrt{${d}}} = \\frac{${n}\\sqrt{${d}}}{${d}}$`,
+                    `$= ${mult === 1 ? '' : mult}\\sqrt{${d}}$`
                 ];
-                
-                return {
-                    latex,
-                    answer: answerDisplay,
-                    answerDisplay,
-                    remainder: d,
-                    coefficient: multiplier,
-                    steps,
-                    hint: `Enter as coefficient√remainder (e.g., 2√3)`,
-                    type: "surds",
-                    subtype: "rationalize"
-                };
             } else {
-                // Multiply surds: √a × √b
                 const a = math.rndItem([2, 3, 5, 6, 7]);
                 const b = math.rndItem([2, 3, 5, 6, 8]);
                 const product = a * b;
-                const { perfectSquareRoot, remainder } = math.largestPerfectSquareFactor(product);
+                const result = math.largestPerfectSquareFactor(product);
+                coefficient = result.perfectSquareRoot;
+                remainder = result.remainder;
                 
                 latex = `\\text{Simplify: } \\sqrt{${a}} \\times \\sqrt{${b}}`;
-                
-                if (perfectSquareRoot === 1) {
-                    answerDisplay = `√${product}`;
-                } else if (remainder === 1) {
-                    answerDisplay = `${perfectSquareRoot}`;
-                } else {
-                    answerDisplay = `${perfectSquareRoot}√${remainder}`;
-                }
-                answer = perfectSquareRoot;
+                answerDisplay = remainder === 1 ? `${coefficient}` : (coefficient === 1 ? `√${remainder}` : `${coefficient}√${remainder}`);
+                answer = answerDisplay;
                 
                 steps = [
-                    `Apply rule: $\\sqrt{a} \\times \\sqrt{b} = \\sqrt{ab}$`,
-                    `$\\sqrt{${a}} \\times \\sqrt{${b}} = \\sqrt{${a} \\times ${b}} = \\sqrt{${product}}$`,
-                    perfectSquareRoot > 1 ? `Simplify: $\\sqrt{${product}} = ${answerDisplay}$` : `$\\sqrt{${product}}$ is already simplified`
+                    `$\\sqrt{${a}} \\times \\sqrt{${b}} = \\sqrt{${product}}$`,
+                    coefficient > 1 ? `Simplify: $\\sqrt{${product}} = ${answerDisplay}$` : `$\\sqrt{${product}}$ is simplified`
                 ];
-                
-                return {
-                    latex,
-                    answer: answerDisplay,
-                    answerDisplay,
-                    remainder: remainder,
-                    coefficient: perfectSquareRoot,
-                    steps,
-                    hint: `Enter as coefficient√remainder or just √n or just a number`,
-                    type: "surds",
-                    subtype: "multiply"
-                };
             }
+            
+            return { latex, answer, answerDisplay, coefficient, remainder, steps, hint: "Enter as coefficient√remainder (e.g., 3√2)", type: "surds" };
         },
 
         logs: () => {
-            const difficultyConfig = {
+            const config = {
                 easy: { baseRange: [2, 5], powerRange: [1, 4], types: [1, 4] },
                 medium: { baseRange: [2, 8], powerRange: [1, 5], types: [1, 3, 4] },
                 hard: { baseRange: [2, 10], powerRange: [1, 6], types: [1, 2, 3, 4] }
-            };
+            }[state.difficulty];
             
-            const config = difficultyConfig[state.difficulty];
             const type = math.rndItem(config.types);
             let latex, answer, steps = [];
             
             if (type === 1) {
-                // Basic: log_b(b^n) = n
                 const base = math.rnd(...config.baseRange);
                 const power = math.rnd(...config.powerRange);
                 const value = Math.pow(base, power);
-                
                 latex = `\\log_{${base}} ${value}`;
                 answer = power;
                 steps = [
-                    `We need to find $x$ such that $${base}^x = ${value}$`,
+                    `Find $x$ such that $${base}^x = ${value}$`,
                     `Since $${base}^{${power}} = ${value}$`,
                     `Therefore, $\\log_{${base}} ${value} = ${power}$`
                 ];
             } else if (type === 2) {
-                // Log addition: log(a) + log(b) = log(ab)
-                const base = 10;
                 const a = math.rnd(2, 5);
                 const b = math.rnd(2, 5);
-                const product = a * b;
-                
                 latex = `\\log ${a} + \\log ${b}`;
-                answer = product;
+                answer = a * b;
                 steps = [
                     `Apply product rule: $\\log a + \\log b = \\log(ab)$`,
-                    `$\\log ${a} + \\log ${b} = \\log(${a} \\times ${b})$`,
-                    `$= \\log ${product}$`,
-                    `Answer: $\\log ${product}$ (or enter ${product} as the argument)`
+                    `$= \\log(${a} \\times ${b}) = \\log ${a * b}$`,
+                    `Answer: $\\log ${a * b}$ (enter ${a * b})`
                 ];
             } else if (type === 3) {
-                // Solve for x: log_b(x) = n
                 const base = math.rnd(2, 5);
                 const power = math.rnd(2, 4);
-                
                 latex = `\\text{If } \\log_{${base}} x = ${power}, \\text{ find } x`;
                 answer = Math.pow(base, power);
                 steps = [
                     `Convert to exponential form:`,
-                    `$\\log_{${base}} x = ${power}$ means $${base}^{${power}} = x$`,
-                    `$x = ${base}^{${power}} = ${Math.pow(base, power)}$`
+                    `$\\log_{${base}} x = ${power}$ means $x = ${base}^{${power}}$`,
+                    `$x = ${answer}$`
                 ];
             } else {
-                // Direct: log_a(a^b)
                 const base = math.rnd(2, 6);
                 const exp = math.rnd(2, 4);
-                const value = Math.pow(base, exp);
-                
-                latex = `\\log_{${base}} ${value}`;
+                latex = `\\log_{${base}} ${Math.pow(base, exp)}`;
                 answer = exp;
                 steps = [
-                    `Find what power of ${base} gives ${value}:`,
-                    `$${base}^{?} = ${value}$`,
-                    `$${base}^{${exp}} = ${value}$`,
-                    `Therefore, $\\log_{${base}} ${value} = ${exp}$`
+                    `$${base}^{?} = ${Math.pow(base, exp)}$`,
+                    `$${base}^{${exp}} = ${Math.pow(base, exp)}$`,
+                    `$\\log_{${base}} ${Math.pow(base, exp)} = ${exp}$`
                 ];
             }
             
-            return {
-                latex,
-                answer,
-                answerDisplay: answer.toString(),
-                steps,
-                hint: "Enter the numerical value",
-                type: "logs"
-            };
+            return { latex, answer, answerDisplay: answer.toString(), steps, hint: "Enter numerical value", type: "logs" };
         },
 
         linear: () => {
-            const difficultyConfig = {
-                easy: { coeffRange: [2, 6], constRange: [1, 10], xRange: [1, 5] },
-                medium: { coeffRange: [2, 9], constRange: [-10, 10], xRange: [-5, 5] },
-                hard: { coeffRange: [2, 12], constRange: [-15, 15], xRange: [-8, 8] }
-            };
+            const config = {
+                easy: { coeffRange: [2, 6], xRange: [1, 5] },
+                medium: { coeffRange: [2, 9], xRange: [-5, 5] },
+                hard: { coeffRange: [2, 12], xRange: [-8, 8] }
+            }[state.difficulty];
             
-            const config = difficultyConfig[state.difficulty];
-            
-            // Generate equation: ax + b = c where x is the solution
             const a = math.rnd(...config.coeffRange) * (Math.random() > 0.3 ? 1 : -1);
             const x = math.rnd(...config.xRange);
-            const b = math.rnd(...config.constRange);
+            const b = math.rnd(-10, 10);
             const c = a * x + b;
             
-            // Format equation properly
             const aStr = a === 1 ? '' : (a === -1 ? '-' : a);
             const bStr = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
-            
-            const latex = `${aStr}x ${bStr} = ${c}`;
-            const answer = x;
+            const latex = `\\text{Solve: } ${aStr}x ${bStr} = ${c}`;
             
             const steps = [
-                `Given equation: $${aStr}x ${bStr} = ${c}$`,
-                `Step 1: Move constant to right side`,
-                `$${aStr}x = ${c} ${b >= 0 ? '-' : '+'} ${Math.abs(b)}$`,
-                `$${aStr}x = ${c - b}$`,
-                `Step 2: Divide both sides by ${a}`,
-                `$x = \\frac{${c - b}}{${a}} = ${x}$`
+                `Given: $${aStr}x ${bStr} = ${c}$`,
+                `Move constant: $${aStr}x = ${c} ${b >= 0 ? '-' : '+'} ${Math.abs(b)} = ${c - b}$`,
+                `Divide by ${a}: $x = \\frac{${c - b}}{${a}} = ${x}$`
             ];
             
-            return {
-                latex: `\\text{Solve: } ${latex}`,
-                answer,
-                answerDisplay: answer.toString(),
-                steps,
-                hint: "Enter the value of x",
-                type: "linear"
-            };
+            return { latex, answer: x, answerDisplay: x.toString(), steps, hint: "Enter value of x", type: "linear" };
         },
 
         quadratic: () => {
-            const difficultyConfig = {
+            const config = {
                 easy: { rootRange: [-4, 4] },
                 medium: { rootRange: [-6, 6] },
                 hard: { rootRange: [-8, 8] }
-            };
+            }[state.difficulty];
             
-            const config = difficultyConfig[state.difficulty];
-            
-            // Generate integer roots
             let r1 = math.rnd(...config.rootRange);
             let r2 = math.rnd(...config.rootRange);
-            
-            // Ensure distinct non-zero roots for cleaner problems
             while (r1 === r2 || r1 === 0 || r2 === 0) {
                 r1 = math.rnd(...config.rootRange);
                 r2 = math.rnd(...config.rootRange);
             }
             
-            // x² - (r1+r2)x + r1*r2 = 0
             const b = -(r1 + r2);
             const c = r1 * r2;
             
-            // Build equation string properly
-            let equation = 'x^2';
-            if (b !== 0) {
-                equation += b > 0 ? ` + ${b}x` : ` - ${Math.abs(b)}x`;
-            }
-            if (c !== 0) {
-                equation += c > 0 ? ` + ${c}` : ` - ${Math.abs(c)}`;
-            }
-            equation += ' = 0';
+            let eq = 'x^2';
+            if (b !== 0) eq += b > 0 ? ` + ${b}x` : ` - ${Math.abs(b)}x`;
+            if (c !== 0) eq += c > 0 ? ` + ${c}` : ` - ${Math.abs(c)}`;
+            eq += ' = 0';
             
             const roots = [r1, r2].sort((a, b) => a - b);
-            const answer = roots.join(', ');
-            
-            const discriminant = b * b - 4 * c;
             
             const steps = [
-                `Given: $${equation}$`,
+                `Given: $${eq}$`,
                 `Here $a = 1, b = ${b}, c = ${c}$`,
-                `Discriminant: $\\Delta = b^2 - 4ac = (${b})^2 - 4(1)(${c}) = ${discriminant}$`,
-                `Using quadratic formula: $x = \\frac{-b \\pm \\sqrt{\\Delta}}{2a}$`,
-                `$x = \\frac{${-b} \\pm \\sqrt{${discriminant}}}{2}$`,
-                `$x = \\frac{${-b} \\pm ${Math.sqrt(discriminant)}}{2}$`,
-                `$x_1 = \\frac{${-b} + ${Math.sqrt(discriminant)}}{2} = ${Math.max(r1, r2)}$`,
-                `$x_2 = \\frac{${-b} - ${Math.sqrt(discriminant)}}{2} = ${Math.min(r1, r2)}$`,
+                `Discriminant: $\\Delta = ${b}^2 - 4(1)(${c}) = ${b*b - 4*c}$`,
+                `$x = \\frac{${-b} \\pm \\sqrt{${b*b - 4*c}}}{2}$`,
                 `Roots: $x = ${roots[0]}, ${roots[1]}$`
             ];
             
-            return {
-                latex: `\\text{Solve: } ${equation}`,
-                answer,
-                answerDisplay: answer,
-                roots: roots,
-                steps,
-                hint: "Enter both roots separated by comma (smaller first), e.g., -3, 2",
-                type: "quadratic"
-            };
+            return { latex: `\\text{Solve: } ${eq}`, answer: roots.join(', '), answerDisplay: roots.join(', '), roots, steps, hint: "Enter roots separated by comma (e.g., -3, 2)", type: "quadratic" };
         },
 
         simultaneous: () => {
-            const difficultyConfig = {
+            const config = {
                 easy: { coeffRange: [1, 4], solRange: [1, 5] },
                 medium: { coeffRange: [1, 6], solRange: [-5, 5] },
                 hard: { coeffRange: [1, 8], solRange: [-7, 7] }
-            };
+            }[state.difficulty];
             
-            const config = difficultyConfig[state.difficulty];
-            
-            // Generate solution first
             const x = math.rnd(...config.solRange);
             const y = math.rnd(...config.solRange);
             
-            // Generate coefficients (avoid zero and ensure solvable)
             let a1, b1, a2, b2;
             do {
                 a1 = math.rnd(1, config.coeffRange[1]) * (Math.random() > 0.5 ? 1 : -1);
                 b1 = math.rnd(1, config.coeffRange[1]) * (Math.random() > 0.5 ? 1 : -1);
                 a2 = math.rnd(1, config.coeffRange[1]) * (Math.random() > 0.5 ? 1 : -1);
                 b2 = math.rnd(1, config.coeffRange[1]) * (Math.random() > 0.5 ? 1 : -1);
-            } while (a1 * b2 === a2 * b1); // Ensure unique solution
+            } while (a1 * b2 === a2 * b1);
             
             const c1 = a1 * x + b1 * y;
             const c2 = a2 * x + b2 * y;
             
-            // Format equations properly
             const formatEq = (a, b, c) => {
                 let eq = '';
-                // x term
                 if (a === 1) eq += 'x';
                 else if (a === -1) eq += '-x';
                 else eq += `${a}x`;
-                // y term
                 if (b === 1) eq += ' + y';
                 else if (b === -1) eq += ' - y';
                 else if (b > 0) eq += ` + ${b}y`;
                 else eq += ` - ${Math.abs(b)}y`;
-                eq += ` = ${c}`;
-                return eq;
+                return eq + ` = ${c}`;
             };
             
             const eq1 = formatEq(a1, b1, c1);
             const eq2 = formatEq(a2, b2, c2);
             
-            const latex = `\\begin{cases} ${eq1} \\\\ ${eq2} \\end{cases}`;
-            const answer = `x=${x}, y=${y}`;
-            
             const steps = [
                 `Equation 1: $${eq1}$`,
                 `Equation 2: $${eq2}$`,
-                `Using substitution or elimination method:`,
-                `From the equations, solve for x and y`,
-                `Solution: $x = ${x}, y = ${y}$`,
-                `Verify: ${a1}(${x}) + ${b1}(${y}) = ${c1} ✓`,
-                `Verify: ${a2}(${x}) + ${b2}(${y}) = ${c2} ✓`
+                `Using elimination/substitution:`,
+                `Solution: $x = ${x}, y = ${y}$`
             ];
             
-            return {
-                latex: `\\text{Solve: } ${latex}`,
-                answer,
-                answerDisplay: answer,
-                x: x,
-                y: y,
-                steps,
-                hint: "Enter as: x=value, y=value (e.g., x=2, y=-3)",
-                type: "simultaneous"
-            };
+            return { latex: `\\begin{cases} ${eq1} \\\\ ${eq2} \\end{cases}`, answer: `x=${x}, y=${y}`, answerDisplay: `x=${x}, y=${y}`, x, y, steps, hint: "Enter as: x=value, y=value", type: "simultaneous" };
         },
 
-        arithmetic: () => {
-            const difficultyConfig = {
+        inequalities: () => {
+            const config = {
+                easy: { coeffRange: [2, 5], xRange: [1, 10] },
+                medium: { coeffRange: [2, 8], xRange: [-5, 10] },
+                hard: { coeffRange: [2, 10], xRange: [-10, 10] }
+            }[state.difficulty];
+            
+            const a = math.rnd(...config.coeffRange);
+            const b = math.rnd(-10, 10);
+            const boundary = math.rnd(...config.xRange);
+            const c = a * boundary + b;
+            const ops = ['>', '<', '>=', '<='];
+            const op = math.rndItem(ops);
+            
+            const latex = `\\text{Solve: } ${a}x ${b >= 0 ? '+' : '-'} ${Math.abs(b)} ${op.replace('>=', '\\geq').replace('<=', '\\leq')} ${c}`;
+            
+            let answer, answerDisplay;
+            if (op === '>') { answer = `x > ${boundary}`; answerDisplay = `x > ${boundary}`; }
+            else if (op === '<') { answer = `x < ${boundary}`; answerDisplay = `x < ${boundary}`; }
+            else if (op === '>=') { answer = `x >= ${boundary}`; answerDisplay = `x ≥ ${boundary}`; }
+            else { answer = `x <= ${boundary}`; answerDisplay = `x ≤ ${boundary}`; }
+            
+            const steps = [
+                `Given: $${a}x ${b >= 0 ? '+' : '-'} ${Math.abs(b)} ${op.replace('>=', '\\geq').replace('<=', '\\leq')} ${c}$`,
+                `Subtract ${b}: $${a}x ${op.replace('>=', '\\geq').replace('<=', '\\leq')} ${c - b}$`,
+                `Divide by ${a}: $x ${op.replace('>=', '\\geq').replace('<=', '\\leq')} ${boundary}$`
+            ];
+            
+            return { latex, answer, answerDisplay, boundary, steps, hint: "Enter as: x > value, x < value, x >= value, or x <= value", type: "inequalities" };
+        },
+
+        // MODULE 2: DATA ARRANGEMENT
+        ap: () => {
+            const config = {
                 easy: { aRange: [1, 5], dRange: [2, 4], nRange: [5, 10], types: [1, 2] },
                 medium: { aRange: [1, 10], dRange: [-5, 5], nRange: [8, 15], types: [1, 2, 3] },
                 hard: { aRange: [-5, 10], dRange: [-8, 8], nRange: [10, 20], types: [1, 2, 3] }
-            };
+            }[state.difficulty];
             
-            const config = difficultyConfig[state.difficulty];
-            const type = math.rndItem(config.types);
-            
-            // Generate AP parameters
             const a = math.rnd(...config.aRange);
             let d = math.rnd(...config.dRange);
-            if (d === 0) d = 2; // Avoid d=0
-            
+            if (d === 0) d = 2;
+            const type = math.rndItem(config.types);
             let latex, answer, steps = [];
             
             if (type === 1) {
-                // Find sum of n terms
                 const n = math.rnd(...config.nRange);
                 const sum = (n / 2) * (2 * a + (n - 1) * d);
-                
                 latex = `\\text{Find } S_{${n}} \\text{ of AP: } ${a}, ${a + d}, ${a + 2*d}, ...`;
                 answer = sum;
                 steps = [
-                    `First term $a = ${a}$, Common difference $d = ${d}$`,
-                    `Sum formula: $S_n = \\frac{n}{2}[2a + (n-1)d]$`,
-                    `$S_{${n}} = \\frac{${n}}{2}[2(${a}) + (${n}-1)(${d})]$`,
-                    `$= \\frac{${n}}{2}[${2*a} + ${(n-1)*d}]$`,
-                    `$= \\frac{${n}}{2} \\times ${2*a + (n-1)*d}$`,
-                    `$= ${sum}$`
+                    `$a = ${a}, d = ${d}, n = ${n}$`,
+                    `$S_n = \\frac{n}{2}[2a + (n-1)d]$`,
+                    `$S_{${n}} = \\frac{${n}}{2}[2(${a}) + ${n-1}(${d})]$`,
+                    `$= \\frac{${n}}{2} \\times ${2*a + (n-1)*d} = ${sum}$`
                 ];
             } else if (type === 2) {
-                // Find nth term
                 const n = math.rnd(...config.nRange);
                 const term = a + (n - 1) * d;
-                
                 latex = `\\text{Find } T_{${n}} \\text{ of AP: } ${a}, ${a + d}, ${a + 2*d}, ...`;
                 answer = term;
                 steps = [
-                    `First term $a = ${a}$, Common difference $d = ${d}$`,
-                    `nth term formula: $T_n = a + (n-1)d$`,
-                    `$T_{${n}} = ${a} + (${n}-1)(${d})$`,
-                    `$= ${a} + ${(n-1)*d}$`,
-                    `$= ${term}$`
+                    `$a = ${a}, d = ${d}, n = ${n}$`,
+                    `$T_n = a + (n-1)d$`,
+                    `$T_{${n}} = ${a} + ${n-1}(${d}) = ${term}$`
                 ];
             } else {
-                // Find n given sum
                 const n = math.rnd(5, 12);
                 const term = a + (n - 1) * d;
-                
-                latex = `\\text{In AP with } a=${a}, d=${d}, \\text{ which term is } ${term}?`;
+                latex = `\\text{In AP } a=${a}, d=${d}, \\text{ which term is } ${term}?`;
                 answer = n;
                 steps = [
-                    `Given: $a = ${a}, d = ${d}$, find $n$ where $T_n = ${term}$`,
-                    `Using: $T_n = a + (n-1)d$`,
-                    `$${term} = ${a} + (n-1)(${d})$`,
-                    `$${term - a} = (n-1)(${d})$`,
-                    `$n - 1 = ${(term - a) / d}$`,
+                    `$T_n = a + (n-1)d = ${term}$`,
+                    `$${a} + (n-1)(${d}) = ${term}$`,
                     `$n = ${n}$`
                 ];
             }
             
-            return {
-                latex,
-                answer,
-                answerDisplay: answer.toString(),
-                steps,
-                hint: "Enter the numerical value",
-                type: "arithmetic"
-            };
+            return { latex, answer, answerDisplay: answer.toString(), steps, hint: "Enter numerical value", type: "ap" };
+        },
+
+        gp: () => {
+            const config = {
+                easy: { aRange: [1, 4], rRange: [2, 3], nRange: [3, 5], types: [1, 2] },
+                medium: { aRange: [1, 6], rRange: [2, 4], nRange: [4, 7], types: [1, 2, 3] },
+                hard: { aRange: [1, 8], rRange: [2, 5], nRange: [5, 8], types: [1, 2, 3] }
+            }[state.difficulty];
+            
+            const a = math.rnd(...config.aRange);
+            const r = math.rnd(...config.rRange);
+            const type = math.rndItem(config.types);
+            let latex, answer, steps = [];
+            
+            if (type === 1) {
+                const n = math.rnd(...config.nRange);
+                const term = a * Math.pow(r, n - 1);
+                latex = `\\text{Find } T_{${n}} \\text{ of GP: } ${a}, ${a*r}, ${a*r*r}, ...`;
+                answer = term;
+                steps = [
+                    `$a = ${a}, r = ${r}, n = ${n}$`,
+                    `$T_n = ar^{n-1}$`,
+                    `$T_{${n}} = ${a} \\times ${r}^{${n-1}} = ${term}$`
+                ];
+            } else if (type === 2) {
+                const n = math.rnd(3, 5);
+                const sum = a * (Math.pow(r, n) - 1) / (r - 1);
+                latex = `\\text{Find } S_{${n}} \\text{ of GP: } ${a}, ${a*r}, ${a*r*r}, ...`;
+                answer = sum;
+                steps = [
+                    `$a = ${a}, r = ${r}, n = ${n}$`,
+                    `$S_n = a \\times \\frac{r^n - 1}{r - 1}$`,
+                    `$S_{${n}} = ${a} \\times \\frac{${r}^{${n}} - 1}{${r} - 1} = ${sum}$`
+                ];
+            } else {
+                const val1 = math.rnd(2, 6);
+                const val2 = math.rnd(8, 18);
+                const gm = Math.sqrt(val1 * val2);
+                latex = `\\text{Find Geometric Mean of } ${val1} \\text{ and } ${val2}`;
+                answer = Math.round(gm * 100) / 100;
+                steps = [
+                    `GM $= \\sqrt{a \\times b}$`,
+                    `$= \\sqrt{${val1} \\times ${val2}} = \\sqrt{${val1 * val2}}$`,
+                    `$\\approx ${answer}$`
+                ];
+            }
+            
+            return { latex, answer, answerDisplay: answer.toString(), steps, hint: "Enter numerical value", type: "gp" };
+        },
+
+        permutation: () => {
+            const config = {
+                easy: { nRange: [4, 6], types: [1, 2] },
+                medium: { nRange: [5, 8], types: [1, 2, 3] },
+                hard: { nRange: [6, 10], types: [1, 2, 3, 4] }
+            }[state.difficulty];
+            
+            const type = math.rndItem(config.types);
+            let latex, answer, steps = [];
+            
+            if (type === 1) {
+                const n = math.rnd(...config.nRange);
+                const r = math.rnd(2, Math.min(4, n));
+                answer = math.nPr(n, r);
+                latex = `\\text{Find } ^{${n}}P_{${r}}`;
+                steps = [
+                    `$^nP_r = \\frac{n!}{(n-r)!}$`,
+                    `$^{${n}}P_{${r}} = \\frac{${n}!}{${n-r}!}$`,
+                    `$= \\frac{${math.factorial(n)}}{${math.factorial(n-r)}} = ${answer}$`
+                ];
+            } else if (type === 2) {
+                const n = math.rnd(...config.nRange);
+                const r = math.rnd(2, Math.min(4, n));
+                answer = math.nCr(n, r);
+                latex = `\\text{Find } ^{${n}}C_{${r}}`;
+                steps = [
+                    `$^nC_r = \\frac{n!}{r!(n-r)!}$`,
+                    `$^{${n}}C_{${r}} = \\frac{${n}!}{${r}! \\times ${n-r}!}$`,
+                    `$= ${answer}$`
+                ];
+            } else if (type === 3) {
+                const n = math.rnd(4, 6);
+                answer = math.factorial(n);
+                latex = `\\text{In how many ways can ${n} books be arranged?}`;
+                steps = [
+                    `Arrangements of $n$ items $= n!$`,
+                    `$${n}! = ${answer}$`
+                ];
+            } else {
+                const n = math.rnd(5, 8);
+                const r = 3;
+                answer = math.nCr(n, r);
+                latex = `\\text{Select 3 people from ${n}. How many ways?}`;
+                steps = [
+                    `Selection (order doesn't matter) $= ^nC_r$`,
+                    `$^{${n}}C_3 = ${answer}$`
+                ];
+            }
+            
+            return { latex, answer, answerDisplay: answer.toString(), steps, hint: "Enter numerical value", type: "permutation" };
+        },
+
+        // MODULE 3: DIFFERENTIAL CALCULUS
+        sets: () => {
+            const type = math.rndItem([1, 2, 3]);
+            let latex, answer, steps = [];
+            
+            if (type === 1) {
+                const setA = [1, 2, 3, 4, 5].slice(0, math.rnd(3, 5));
+                const setB = [3, 4, 5, 6, 7].slice(0, math.rnd(3, 5));
+                const union = [...new Set([...setA, ...setB])].sort((a,b) => a-b);
+                latex = `A = \\{${setA.join(', ')}\\}, B = \\{${setB.join(', ')}\\}. \\text{ Find } A \\cup B`;
+                answer = union.length;
+                steps = [
+                    `$A \\cup B$ = All elements in A or B`,
+                    `$= \\{${union.join(', ')}\\}$`,
+                    `Number of elements $= ${union.length}$`
+                ];
+            } else if (type === 2) {
+                const setA = [1, 2, 3, 4, 5].slice(0, math.rnd(3, 5));
+                const setB = [3, 4, 5, 6, 7].slice(0, math.rnd(3, 5));
+                const intersection = setA.filter(x => setB.includes(x));
+                latex = `A = \\{${setA.join(', ')}\\}, B = \\{${setB.join(', ')}\\}. \\text{ Find } n(A \\cap B)`;
+                answer = intersection.length;
+                steps = [
+                    `$A \\cap B$ = Elements common to both`,
+                    `$= \\{${intersection.join(', ') || '∅'}\\}$`,
+                    `$n(A \\cap B) = ${intersection.length}$`
+                ];
+            } else {
+                const n = math.rnd(2, 4);
+                answer = Math.pow(2, n);
+                latex = `\\text{If } n(A) = ${n}, \\text{ find number of subsets of A}`;
+                steps = [
+                    `Number of subsets $= 2^n$`,
+                    `$= 2^{${n}} = ${answer}$`
+                ];
+            }
+            
+            return { latex, answer, answerDisplay: answer.toString(), steps, hint: "Enter numerical value", type: "sets" };
+        },
+
+        relations: () => {
+            const type = math.rndItem([1, 2, 3]);
+            let latex, answer, steps = [];
+            
+            if (type === 1) {
+                const a = math.rnd(1, 5);
+                const b = math.rnd(1, 5);
+                latex = `f(x) = 2x + 3. \\text{ Find } f(${a}) + f(${b})`;
+                answer = (2*a + 3) + (2*b + 3);
+                steps = [
+                    `$f(${a}) = 2(${a}) + 3 = ${2*a + 3}$`,
+                    `$f(${b}) = 2(${b}) + 3 = ${2*b + 3}$`,
+                    `$f(${a}) + f(${b}) = ${answer}$`
+                ];
+            } else if (type === 2) {
+                const a = math.rnd(1, 4);
+                latex = `f(x) = x^2 - 1. \\text{ Find } f(${a})`;
+                answer = a * a - 1;
+                steps = [
+                    `$f(${a}) = ${a}^2 - 1$`,
+                    `$= ${a*a} - 1 = ${answer}$`
+                ];
+            } else {
+                const nA = math.rnd(2, 4);
+                const nB = math.rnd(2, 4);
+                answer = nA * nB;
+                latex = `n(A) = ${nA}, n(B) = ${nB}. \\text{ Find max relations from A to B}`;
+                steps = [
+                    `Max relations $= 2^{n(A) \\times n(B)}$`,
+                    `But number of elements in $A \\times B = ${nA} \\times ${nB} = ${answer}$`
+                ];
+            }
+            
+            return { latex, answer, answerDisplay: answer.toString(), steps, hint: "Enter numerical value", type: "relations" };
+        },
+
+        limits: () => {
+            const type = math.rndItem([1, 2, 3]);
+            let latex, answer, steps = [];
+            
+            if (type === 1) {
+                const a = math.rnd(1, 5);
+                const b = math.rnd(1, 5);
+                const c = math.rnd(1, 5);
+                answer = a * c + b;
+                latex = `\\lim_{x \\to ${c}} (${a}x + ${b})`;
+                steps = [
+                    `Direct substitution (polynomial):`,
+                    `$= ${a}(${c}) + ${b} = ${answer}$`
+                ];
+            } else if (type === 2) {
+                const a = math.rnd(1, 3);
+                const c = math.rnd(1, 4);
+                answer = a * c * c;
+                latex = `\\lim_{x \\to ${c}} ${a}x^2`;
+                steps = [
+                    `Direct substitution:`,
+                    `$= ${a}(${c})^2 = ${a} \\times ${c*c} = ${answer}$`
+                ];
+            } else {
+                const n = math.rnd(2, 5);
+                answer = n;
+                latex = `\\lim_{x \\to 0} \\frac{\\sin(${n}x)}{x}`;
+                steps = [
+                    `Use: $\\lim_{x \\to 0} \\frac{\\sin(ax)}{x} = a$`,
+                    `$= ${n}$`
+                ];
+            }
+            
+            return { latex, answer, answerDisplay: answer.toString(), steps, hint: "Enter numerical value", type: "limits" };
+        },
+
+        // MODULE 4: DATA ANALYSIS
+        frequency: () => {
+            const data = Array.from({length: 5}, () => math.rnd(10, 50));
+            const sum = data.reduce((a, b) => a + b, 0);
+            const type = math.rndItem([1, 2]);
+            let latex, answer, steps = [];
+            
+            if (type === 1) {
+                answer = Math.round(sum / data.length * 100) / 100;
+                latex = `\\text{Data: } ${data.join(', ')}. \\text{ Find Mean}`;
+                steps = [
+                    `Mean $= \\frac{\\sum x}{n}$`,
+                    `$= \\frac{${sum}}{${data.length}} = ${answer}$`
+                ];
+            } else {
+                const sorted = [...data].sort((a,b) => a-b);
+                const mid = Math.floor(sorted.length / 2);
+                answer = sorted.length % 2 ? sorted[mid] : (sorted[mid-1] + sorted[mid]) / 2;
+                latex = `\\text{Data: } ${data.join(', ')}. \\text{ Find Median}`;
+                steps = [
+                    `Sorted: ${sorted.join(', ')}`,
+                    `Median (middle value) $= ${answer}$`
+                ];
+            }
+            
+            return { latex, answer, answerDisplay: answer.toString(), steps, hint: "Enter numerical value", type: "frequency" };
+        },
+
+        graphs: () => {
+            const freqs = Array.from({length: 4}, () => math.rnd(5, 20));
+            const total = freqs.reduce((a, b) => a + b, 0);
+            const type = math.rndItem([1, 2]);
+            let latex, answer, steps = [];
+            
+            if (type === 1) {
+                answer = total;
+                latex = `\\text{Frequencies: } ${freqs.join(', ')}. \\text{ Find total frequency}`;
+                steps = [`Total $= ${freqs.join(' + ')} = ${total}$`];
+            } else {
+                const classWidth = 10;
+                const numClasses = freqs.length;
+                answer = classWidth * numClasses;
+                latex = `\\text{Class width: 10, Classes: ${numClasses}. Find range}`;
+                steps = [`Range $= \\text{Class width} \\times \\text{Number of classes} = ${answer}$`];
+            }
+            
+            return { latex, answer, answerDisplay: answer.toString(), steps, hint: "Enter numerical value", type: "graphs" };
+        },
+
+        central: () => {
+            const data = Array.from({length: 5}, () => math.rnd(10, 50));
+            const type = math.rndItem([1, 2, 3]);
+            let latex, answer, steps = [];
+            
+            if (type === 1) {
+                const sum = data.reduce((a, b) => a + b, 0);
+                answer = Math.round(sum / data.length * 100) / 100;
+                latex = `\\text{Data: } ${data.join(', ')}. \\text{ Find Arithmetic Mean}`;
+                steps = [
+                    `AM $= \\frac{${data.join(' + ')}}{${data.length}}$`,
+                    `$= \\frac{${sum}}{${data.length}} = ${answer}$`
+                ];
+            } else if (type === 2) {
+                const product = data.reduce((a, b) => a * b, 1);
+                answer = Math.round(Math.pow(product, 1/data.length) * 100) / 100;
+                latex = `\\text{Data: } ${data.join(', ')}. \\text{ Find Geometric Mean}`;
+                steps = [
+                    `GM $= \\sqrt[${data.length}]{${data.join(' \\times ')}}$`,
+                    `$= \\sqrt[${data.length}]{${product}} \\approx ${answer}$`
+                ];
+            } else {
+                const sorted = [...data].sort((a,b) => a-b);
+                const counts = {};
+                sorted.forEach(x => counts[x] = (counts[x] || 0) + 1);
+                const maxCount = Math.max(...Object.values(counts));
+                const modes = Object.keys(counts).filter(k => counts[k] === maxCount);
+                answer = modes.length === sorted.length ? 'No mode' : modes[0];
+                latex = `\\text{Data: } ${data.join(', ')}. \\text{ Find Mode}`;
+                steps = [
+                    `Mode = Most frequent value`,
+                    `$= ${answer}$`
+                ];
+            }
+            
+            return { latex, answer, answerDisplay: answer.toString(), steps, hint: "Enter numerical value", type: "central" };
+        },
+
+        dispersion: () => {
+            const data = Array.from({length: 5}, () => math.rnd(10, 30));
+            const mean = data.reduce((a, b) => a + b, 0) / data.length;
+            const type = math.rndItem([1, 2]);
+            let latex, answer, steps = [];
+            
+            if (type === 1) {
+                const sorted = [...data].sort((a,b) => a-b);
+                answer = sorted[sorted.length - 1] - sorted[0];
+                latex = `\\text{Data: } ${data.join(', ')}. \\text{ Find Range}`;
+                steps = [
+                    `Range $= \\text{Max} - \\text{Min}$`,
+                    `$= ${sorted[sorted.length-1]} - ${sorted[0]} = ${answer}$`
+                ];
+            } else {
+                const variance = data.reduce((sum, x) => sum + Math.pow(x - mean, 2), 0) / data.length;
+                answer = Math.round(variance * 100) / 100;
+                latex = `\\text{Data: } ${data.join(', ')}. \\text{ Find Variance}`;
+                steps = [
+                    `Mean $= ${Math.round(mean * 100) / 100}$`,
+                    `Variance $= \\frac{\\sum(x - \\bar{x})^2}{n} = ${answer}$`
+                ];
+            }
+            
+            return { latex, answer, answerDisplay: answer.toString(), steps, hint: "Enter numerical value", type: "dispersion" };
+        },
+
+        // MODULE 5: FORECASTING
+        correlation: () => {
+            const n = 5;
+            const x = Array.from({length: n}, () => math.rnd(1, 10));
+            const y = x.map(v => v + math.rnd(-2, 2));
+            const type = math.rndItem([1, 2]);
+            let latex, answer, steps = [];
+            
+            if (type === 1) {
+                const sumX = x.reduce((a, b) => a + b, 0);
+                const sumY = y.reduce((a, b) => a + b, 0);
+                const sumXY = x.reduce((sum, xi, i) => sum + xi * y[i], 0);
+                const sumX2 = x.reduce((sum, xi) => sum + xi * xi, 0);
+                const sumY2 = y.reduce((sum, yi) => sum + yi * yi, 0);
+                
+                const num = n * sumXY - sumX * sumY;
+                const den = Math.sqrt((n * sumX2 - sumX * sumX) * (n * sumY2 - sumY * sumY));
+                answer = Math.round((num / den) * 100) / 100;
+                
+                latex = `\\text{Find correlation coefficient}`;
+                steps = [
+                    `X: ${x.join(', ')}`,
+                    `Y: ${y.join(', ')}`,
+                    `$r = \\frac{n\\sum XY - \\sum X \\sum Y}{\\sqrt{[n\\sum X^2 - (\\sum X)^2][n\\sum Y^2 - (\\sum Y)^2]}}$`,
+                    `$r \\approx ${answer}$`
+                ];
+            } else {
+                const meanX = x.reduce((a, b) => a + b, 0) / n;
+                const meanY = y.reduce((a, b) => a + b, 0) / n;
+                answer = Math.round((meanX + meanY) / 2 * 100) / 100;
+                latex = `X: ${x.join(', ')}, Y: ${y.join(', ')}. \\text{ Find mean of means}`;
+                steps = [
+                    `Mean X $= ${Math.round(meanX * 100) / 100}$`,
+                    `Mean Y $= ${Math.round(meanY * 100) / 100}$`,
+                    `Mean of means $= ${answer}$`
+                ];
+            }
+            
+            return { latex, answer, answerDisplay: answer.toString(), steps, hint: "Enter numerical value (round to 2 decimals)", type: "correlation" };
+        },
+
+        regression: () => {
+            const x = [1, 2, 3, 4, 5];
+            const slope = math.rnd(1, 3);
+            const intercept = math.rnd(1, 5);
+            const y = x.map(xi => slope * xi + intercept + math.rnd(-1, 1));
+            
+            const n = x.length;
+            const sumX = x.reduce((a, b) => a + b, 0);
+            const sumY = y.reduce((a, b) => a + b, 0);
+            const sumXY = x.reduce((sum, xi, i) => sum + xi * y[i], 0);
+            const sumX2 = x.reduce((sum, xi) => sum + xi * xi, 0);
+            
+            const b = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+            const a = (sumY - b * sumX) / n;
+            
+            const predictX = math.rnd(6, 8);
+            const answer = Math.round((a + b * predictX) * 100) / 100;
+            
+            const latex = `\\text{X: ${x.join(', ')}, Y: ${y.join(', ')}. Predict Y when X=${predictX}}`;
+            const steps = [
+                `Using least squares method:`,
+                `Slope $b \\approx ${Math.round(b * 100) / 100}$`,
+                `Intercept $a \\approx ${Math.round(a * 100) / 100}$`,
+                `$Y = ${Math.round(a * 100) / 100} + ${Math.round(b * 100) / 100} \\times ${predictX} \\approx ${answer}$`
+            ];
+            
+            return { latex, answer, answerDisplay: answer.toString(), steps, hint: "Enter numerical value (round to 2 decimals)", type: "regression" };
         }
     };
 
-    // Core Functions
+    // ==================== CORE FUNCTIONS ====================
+    function selectModule(moduleNum) {
+        state.currentModule = moduleNum;
+        
+        document.querySelectorAll('.module-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (parseInt(btn.dataset.module) === moduleNum) {
+                btn.classList.add('active');
+            }
+        });
+        
+        els.moduleTitle.textContent = `Module ${moduleNum}: ${syllabusData[moduleNum].name}`;
+        renderTopics();
+    }
+
+    function renderTopics() {
+        const module = syllabusData[state.currentModule];
+        const topics = module.topics;
+        
+        let html = '';
+        let firstTopic = null;
+        
+        for (const [key, topic] of Object.entries(topics)) {
+            if (!firstTopic) firstTopic = key;
+            const activeClass = state.currentTopic === key ? 'active' : '';
+            html += `
+                <button class="topic-btn ${activeClass}" data-topic="${key}" onclick="selectTopic('${key}')">
+                    <i class="fas fa-${topic.icon}"></i>
+                    <span>${topic.name}</span>
+                </button>
+            `;
+        }
+        
+        els.topicGrid.innerHTML = html;
+        
+        if (!topics[state.currentTopic]) {
+            state.currentTopic = firstTopic;
+            document.querySelector(`[data-topic="${firstTopic}"]`)?.classList.add('active');
+        }
+    }
+
+    function selectTopic(topicKey) {
+        state.currentTopic = topicKey;
+        
+        document.querySelectorAll('.topic-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.topic === topicKey) {
+                btn.classList.add('active');
+            }
+        });
+    }
+
     function generateQuestion() {
         resetTimer();
         els.solutionBox.style.display = 'none';
         els.answerDisplay.style.display = 'none';
         els.input.value = '';
         els.checkBtn.disabled = false;
+        els.comingSoon.classList.add('hidden');
         els.gameArea.classList.remove('hidden');
         els.timer.style.display = 'block';
         
-        state.currentTopic = els.topic.value;
         const generator = generators[state.currentTopic];
+        
+        if (!generator) {
+            els.gameArea.classList.add('hidden');
+            els.comingSoon.classList.remove('hidden');
+            document.getElementById('comingSoonTitle').textContent = 'Coming Soon!';
+            document.getElementById('comingSoonText').textContent = `${syllabusData[state.currentModule].topics[state.currentTopic]?.name || 'This topic'} questions are under development.`;
+            return;
+        }
         
         try {
             state.currentQuestion = generator();
-            
-            // Format question with MathJax
             els.question.innerHTML = `\\[${state.currentQuestion.latex}\\]`;
-            
-            // Update hint
             els.hint.textContent = state.currentQuestion.hint;
+            els.topicBadge.textContent = syllabusData[state.currentModule].topics[state.currentTopic].name;
             
-            // Start timer
             startTimer();
-            
-            // Update progress
             updateProgress();
             
-            // Render MathJax
             if (window.MathJax && MathJax.typesetPromise) {
                 MathJax.typesetPromise([els.question]).catch(err => console.log('MathJax error:', err));
             }
             
-            // Focus input
             setTimeout(() => els.input.focus(), 300);
         } catch (e) {
             console.error("Generator Error:", e);
@@ -1322,81 +1746,45 @@
         const userInput = els.input.value.trim().toLowerCase();
         let isCorrect = false;
         
-        // Calculate time taken
         const timeTaken = Math.max(0, state.timeLimit - state.currentTime);
         els.timeTaken.textContent = `Time: ${timeTaken}s`;
         
-        // Validation based on question type
         const q = state.currentQuestion;
         
         if (q.type === 'quadratic') {
-            // Parse user roots
             const userRoots = userInput.split(',').map(s => parseFloat(s.trim())).filter(n => !isNaN(n)).sort((a, b) => a - b);
-            const correctRoots = q.roots;
-            
-            if (userRoots.length === 2) {
-                isCorrect = Math.abs(userRoots[0] - correctRoots[0]) < 0.01 &&
-                           Math.abs(userRoots[1] - correctRoots[1]) < 0.01;
-            }
+            isCorrect = userRoots.length === 2 && Math.abs(userRoots[0] - q.roots[0]) < 0.01 && Math.abs(userRoots[1] - q.roots[1]) < 0.01;
         } else if (q.type === 'simultaneous') {
-            // Parse x=value, y=value format
             const xMatch = userInput.match(/x\s*=\s*([-\d.]+)/i);
             const yMatch = userInput.match(/y\s*=\s*([-\d.]+)/i);
-            
             if (xMatch && yMatch) {
-                const userX = parseFloat(xMatch[1]);
-                const userY = parseFloat(yMatch[1]);
-                isCorrect = Math.abs(userX - q.x) < 0.01 && Math.abs(userY - q.y) < 0.01;
+                isCorrect = Math.abs(parseFloat(xMatch[1]) - q.x) < 0.01 && Math.abs(parseFloat(yMatch[1]) - q.y) < 0.01;
             }
         } else if (q.type === 'surds') {
-            // Normalize surd input
-            const normalized = userInput
-                .replace(/√/g, 'sqrt')
-                .replace(/\s+/g, '')
-                .toLowerCase();
-            
-            // Try multiple formats
-            const expectedFormats = [
+            const normalized = userInput.replace(/√/g, 'sqrt').replace(/\s+/g, '').toLowerCase();
+            const expected = [
                 q.answerDisplay.toLowerCase().replace(/√/g, 'sqrt').replace(/\s+/g, ''),
                 `${q.coefficient}sqrt${q.remainder}`,
                 `${q.coefficient}sqrt(${q.remainder})`,
-                `sqrt${q.remainder}`,
-                `sqrt(${q.remainder})`
-            ];
-            
-            // Check if coefficient is 1
-            if (q.coefficient === 1) {
-                expectedFormats.push(`sqrt${q.remainder}`);
-                expectedFormats.push(`sqrt(${q.remainder})`);
-            }
-            
-            // Check if remainder is 1 (perfect square result)
-            if (q.remainder === 1) {
-                expectedFormats.push(q.coefficient.toString());
-            }
-            
-            isCorrect = expectedFormats.some(fmt => normalized === fmt.toLowerCase().replace(/\s+/g, ''));
-            
-            // Also check numerical if it's a perfect result
-            if (!isCorrect && q.remainder === 1) {
-                isCorrect = parseFloat(userInput) === q.coefficient;
-            }
+                q.remainder === 1 ? q.coefficient.toString() : null
+            ].filter(Boolean);
+            isCorrect = expected.some(fmt => normalized === fmt);
+        } else if (q.type === 'inequalities') {
+            const normalized = userInput.replace(/\s+/g, '').replace('≥', '>=').replace('≤', '<=');
+            const expected = q.answer.replace(/\s+/g, '');
+            isCorrect = normalized === expected;
         } else {
-            // Numerical comparison
             const userNum = parseFloat(userInput);
             const correctNum = parseFloat(q.answer);
-            isCorrect = !isNaN(userNum) && Math.abs(userNum - correctNum) < 0.01;
+            isCorrect = !isNaN(userNum) && Math.abs(userNum - correctNum) < 0.1;
         }
         
-        // Update stats
         state.total++;
         if (isCorrect) {
             state.score += Math.max(1, Math.floor((state.timeLimit - timeTaken) / 10));
             state.correct++;
             state.streak++;
-            if (state.streak > state.maxStreak) {
-                state.maxStreak = state.streak;
-            }
+            if (state.streak > state.maxStreak) state.maxStreak = state.streak;
             showFeedback(true);
         } else {
             state.streak = 0;
@@ -1410,9 +1798,7 @@
     function showFeedback(isCorrect) {
         const toast = document.createElement('div');
         toast.className = `feedback-toast ${isCorrect ? 'correct' : 'incorrect'}`;
-        toast.innerHTML = isCorrect ? 
-            '<i class="fas fa-check-circle"></i> Correct!' : 
-            '<i class="fas fa-times-circle"></i> Incorrect';
+        toast.innerHTML = isCorrect ? '<i class="fas fa-check-circle"></i> Correct!' : '<i class="fas fa-times-circle"></i> Incorrect';
         document.body.appendChild(toast);
         setTimeout(() => toast.remove(), 2000);
     }
@@ -1430,55 +1816,42 @@
             els.correctAnswerValue.textContent = state.currentQuestion.answerDisplay;
         }
         
-        // Display steps
         if (state.currentQuestion.steps) {
-            const stepsHtml = state.currentQuestion.steps.map(step => 
-                `<div class="step">${step}</div>`
-            ).join('');
-            els.steps.innerHTML = stepsHtml;
+            const stepsContent = document.getElementById('stepsContent');
+            stepsContent.innerHTML = state.currentQuestion.steps.map(step => `<div class="step">${step}</div>`).join('');
             
-            // Render MathJax in steps
             if (window.MathJax && MathJax.typesetPromise) {
-                MathJax.typesetPromise([els.steps]).catch(err => console.log('MathJax error:', err));
+                MathJax.typesetClear([stepsContent]);
+                MathJax.typesetPromise([stepsContent]).catch(err => console.log('MathJax error:', err));
             }
         }
         
         updateProgress();
-        
-        // Scroll to solution
         els.solutionBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
     function updateStats() {
         els.score.textContent = state.score;
-        els.mobileScore.textContent = state.score;
         els.total.textContent = state.total;
         els.streak.textContent = state.streak;
-        
-        const accuracy = state.total > 0 ? Math.round((state.correct / state.total) * 100) : 0;
-        els.accuracy.textContent = `${accuracy}%`;
+        els.accuracy.textContent = state.total > 0 ? `${Math.round((state.correct / state.total) * 100)}%` : '0%';
     }
 
     function updateProgress() {
-        const progress = state.total > 0 ? Math.min(100, (state.total % 10) * 10) : 0;
-        els.progressFill.style.width = `${progress}%`;
+        els.progressFill.style.width = `${Math.min(100, (state.total % 10) * 10)}%`;
     }
 
     function startTimer() {
         state.currentTime = state.timeLimit;
         els.timeLeft.textContent = state.currentTime;
         els.timer.style.color = 'var(--text-primary)';
-        state.startTime = Date.now();
         
         state.timerInterval = setInterval(() => {
             state.currentTime--;
             els.timeLeft.textContent = state.currentTime;
             
-            if (state.currentTime <= 10) {
-                els.timer.style.color = 'var(--error-color)';
-            } else if (state.currentTime <= 30) {
-                els.timer.style.color = 'var(--warning-color)';
-            }
+            if (state.currentTime <= 10) els.timer.style.color = 'var(--error-color)';
+            else if (state.currentTime <= 30) els.timer.style.color = 'var(--warning-color)';
             
             if (state.currentTime <= 0) {
                 clearInterval(state.timerInterval);
@@ -1490,65 +1863,32 @@
     function resetTimer() {
         clearInterval(state.timerInterval);
         els.timer.style.color = 'var(--text-primary)';
-        state.currentTime = state.timeLimit;
     }
 
     function setDifficulty(level) {
         state.difficulty = level;
-        
         document.querySelectorAll('.difficulty-btn').forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.dataset.level === level) {
-                btn.classList.add('active');
-            }
+            btn.classList.toggle('active', btn.dataset.level === level);
         });
-        
-        switch(level) {
-            case 'easy': state.timeLimit = 90; break;
-            case 'medium': state.timeLimit = 60; break;
-            case 'hard': state.timeLimit = 45; break;
-        }
+        state.timeLimit = { easy: 90, medium: 60, hard: 45 }[level];
     }
 
     function showHint() {
         if (!state.currentQuestion) return;
-        state.hintsUsed++;
-        
-        let hintMsg = state.currentQuestion.hint;
-        
-        // Add topic-specific hints
-        if (state.currentTopic === 'indices') {
-            hintMsg += '\n\nRemember:\n• aᵐ × aⁿ = aᵐ⁺ⁿ\n• aᵐ ÷ aⁿ = aᵐ⁻ⁿ\n• (aᵐ)ⁿ = aᵐˣⁿ';
-        } else if (state.currentTopic === 'surds') {
-            hintMsg += '\n\nRemember:\n• √(ab) = √a × √b\n• √a × √a = a\n• Rationalize by multiplying by √n/√n';
-        } else if (state.currentTopic === 'logs') {
-            hintMsg += '\n\nRemember:\n• log_b(bⁿ) = n\n• log(a) + log(b) = log(ab)\n• log_b(x) = n means bⁿ = x';
-        }
-        
-        alert(hintMsg);
-    }
-
-    function practiceSimilar() {
-        generateQuestion();
+        alert(`Hint: ${state.currentQuestion.hint}`);
     }
 
     // Event Listeners
-    els.topic.addEventListener('change', generateQuestion);
-    
     els.input.addEventListener("keypress", function(event) {
-        if (event.key === "Enter" && !els.checkBtn.disabled) {
-            checkAnswer();
-        }
+        if (event.key === "Enter" && !els.checkBtn.disabled) checkAnswer();
     });
 
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
         updateStats();
         setDifficulty('easy');
+        selectModule(1);
     });
-
-    // Touch support
-    document.addEventListener('touchstart', function() {}, {passive: true});
 </script>
 
 </body>
